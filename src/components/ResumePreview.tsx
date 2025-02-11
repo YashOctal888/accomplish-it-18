@@ -2,25 +2,17 @@
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2 } from "lucide-react";
+import { Button } from "./ui/button";
+import { useState } from "react";
 
 export const ResumePreview = () => {
   const { getSelectedAccomplishments } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
-  if (selectedAccomplishments.length === 0) {
-    return (
-      <div className="p-6 h-full flex items-center justify-center text-center">
-        <div className="text-gray-500">
-          <p className="text-lg font-medium mb-2">Resume Preview</p>
-          <p className="text-sm">Select accomplishments from the timeline to see them in your resume</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-6 h-full overflow-auto bg-white space-y-8">
+  const ResumeContent = () => (
+    <div className="space-y-8">
       {/* Profile Section */}
       <div className="relative">
         {/* Header Image */}
@@ -103,6 +95,55 @@ export const ResumePreview = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+
+  if (selectedAccomplishments.length === 0) {
+    return (
+      <div className="p-6 h-full flex items-center justify-center text-center">
+        <div className="text-gray-500">
+          <p className="text-lg font-medium mb-2">Resume Preview</p>
+          <p className="text-sm">Select accomplishments from the timeline to see them in your resume</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isFullScreen) {
+    return (
+      <div className="fixed inset-0 bg-white z-50 overflow-auto">
+        <div className="max-w-4xl mx-auto p-8">
+          <div className="flex justify-end mb-4">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setIsFullScreen(false)}
+              className="gap-2"
+            >
+              <Maximize2 className="w-4 h-4" />
+              Exit Full Screen
+            </Button>
+          </div>
+          <ResumeContent />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 h-full overflow-auto bg-white space-y-4">
+      <div className="flex justify-end">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => setIsFullScreen(true)}
+          className="gap-2"
+        >
+          <Maximize2 className="w-4 h-4" />
+          Full Screen
+        </Button>
+      </div>
+      <ResumeContent />
     </div>
   );
 };
