@@ -96,7 +96,7 @@ export const Timeline = () => {
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="relative space-y-0">
         {accomplishments.map((accomplishment) => (
           <AccomplishmentCard
             key={accomplishment.id}

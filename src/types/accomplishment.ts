@@ -7,6 +7,15 @@ export interface Accomplishment {
   company: string;
   privateDetails: string;
   selected?: boolean;
+  attachments?: FileAttachment[];
+}
+
+export interface FileAttachment {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  url: string;
 }
 
 export type View = "private" | "public";
