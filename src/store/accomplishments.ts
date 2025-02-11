@@ -9,6 +9,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Sales Executive",
     company: "HorizonCorp",
     privateDetails: "Managed a 20-client portfolio worth $1.2M in revenue",
+    tags: ["Sales", "Achievement", "Quarter Goals"],
+    attachments: [
+      {
+        id: "1",
+        name: "Final_points",
+        type: "docx",
+        size: "1.9MB",
+        url: "/docs/final-points.docx"
+      }
+    ]
   },
   {
     id: "2",
@@ -17,6 +27,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Project Manager",
     company: "HorizonCorp",
     privateDetails: "Used Agile methodology to reduce development time by 25%",
+    tags: ["Leadership", "Development", "Project Management"],
+    attachments: [
+      {
+        id: "2",
+        name: "Presentation",
+        type: "pwr",
+        size: "1.4MB",
+        url: "/docs/presentation.pptx"
+      }
+    ]
   },
   {
     id: "3",
@@ -25,6 +45,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Business Analyst",
     company: "TechFirm Inc",
     privateDetails: "Reduced customer response time by 40% through automation",
+    tags: ["Business", "Analysis", "CRM"],
+    attachments: [
+      {
+        id: "3",
+        name: "CRM_Report",
+        type: "pdf",
+        size: "2.5MB",
+        url: "/docs/crm-report.pdf"
+      }
+    ]
   },
   {
     id: "4",
@@ -33,6 +63,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Product Manager",
     company: "AppWorks",
     privateDetails: "Achieved 100K downloads in first month with 4.8 star rating",
+    tags: ["Product", "Launch", "Mobile"],
+    attachments: [
+      {
+        id: "4",
+        name: "App_Screenshot",
+        type: "png",
+        size: "500KB",
+        url: "/docs/app-screenshot.png"
+      }
+    ]
   },
   {
     id: "5",
@@ -41,6 +81,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Marketing Manager",
     company: "BrandBoost",
     privateDetails: "Increased conversion rate by 35% while reducing cost per acquisition by 20%",
+    tags: ["Marketing", "ROI", "Campaign"],
+    attachments: [
+      {
+        id: "5",
+        name: "Campaign_Report",
+        type: "xlsx",
+        size: "1.2MB",
+        url: "/docs/campaign-report.xlsx"
+      }
+    ]
   },
   {
     id: "6",
@@ -49,6 +99,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "UX Designer",
     company: "DigitalCraft",
     privateDetails: "Improved user engagement by 45% and reduced bounce rate by 30%",
+    tags: ["UX", "Design", "Website"],
+    attachments: [
+      {
+        id: "6",
+        name: "Wireframes",
+        type: "pdf",
+        size: "1.0MB",
+        url: "/docs/wireframes.pdf"
+      }
+    ]
   },
   {
     id: "7",
@@ -57,6 +117,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Digital Marketing Specialist",
     company: "MarketPro",
     privateDetails: "Generated $500K in revenue with 28% open rate and 12% click-through rate",
+    tags: ["Email", "Campaign", "Marketing"],
+    attachments: [
+      {
+        id: "7",
+        name: "Email_Report",
+        type: "pdf",
+        size: "1.5MB",
+        url: "/docs/email-report.pdf"
+      }
+    ]
   },
   {
     id: "8",
@@ -65,6 +135,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Software Engineer",
     company: "AITech Solutions",
     privateDetails: "Reduced customer service costs by 40% while maintaining 95% satisfaction rate",
+    tags: ["AI", "Chatbot", "Development"],
+    attachments: [
+      {
+        id: "8",
+        name: "Chatbot_Code",
+        type: "zip",
+        size: "3.0MB",
+        url: "/docs/chatbot-code.zip"
+      }
+    ]
   },
   {
     id: "9",
@@ -73,6 +153,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Operations Manager",
     company: "GlobalSupply",
     privateDetails: "Saved $2M annually through vendor consolidation and process automation",
+    tags: ["Procurement", "Streamlining", "Operations"],
+    attachments: [
+      {
+        id: "9",
+        name: "Procurement_Report",
+        type: "pdf",
+        size: "1.8MB",
+        url: "/docs/procurement-report.pdf"
+      }
+    ]
   },
   {
     id: "10",
@@ -81,6 +171,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "HR Director",
     company: "TalentGrowth",
     privateDetails: "Successfully hired and onboarded 50+ employees across 5 countries",
+    tags: ["HR", "Expansion", "International"],
+    attachments: [
+      {
+        id: "10",
+        name: "Hiring_Report",
+        type: "docx",
+        size: "2.2MB",
+        url: "/docs/hiring-report.docx"
+      }
+    ]
   },
   {
     id: "11",
@@ -89,6 +189,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "IT Security Manager",
     company: "SecureNet",
     privateDetails: "Achieved ISO 27001 certification with zero major non-conformities",
+    tags: ["Security", "Protocol", "IT"],
+    attachments: [
+      {
+        id: "11",
+        name: "Security_Report",
+        type: "pdf",
+        size: "1.7MB",
+        url: "/docs/security-report.pdf"
+      }
+    ]
   },
   {
     id: "12",
@@ -97,6 +207,16 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Customer Success Manager",
     company: "LoyaltyFirst",
     privateDetails: "Increased customer retention by 25% and generated 40% more referrals",
+    tags: ["Loyalty", "Program", "Customer Success"],
+    attachments: [
+      {
+        id: "12",
+        name: "Loyalty_Report",
+        type: "xlsx",
+        size: "1.1MB",
+        url: "/docs/loyalty-report.xlsx"
+      }
+    ]
   }
 ];
 

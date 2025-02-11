@@ -7,6 +7,7 @@ export interface Accomplishment {
   company: string;
   privateDetails: string;
   selected?: boolean;
+  tags?: string[];
   attachments?: FileAttachment[];
 }
 
@@ -19,3 +20,4 @@ export interface FileAttachment {
 }
 
 export type View = "private" | "public";
+
