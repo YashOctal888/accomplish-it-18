@@ -49,6 +49,23 @@ const Home = () => {
                       <p className="mt-2 text-sm text-gray-600">
                         {accomplishment.description}
                       </p>
+                      {accomplishment.tags && accomplishment.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {accomplishment.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className={cn(
+                                "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+                                tag === "highlight"
+                                  ? "bg-amber-50 text-amber-700"
+                                  : "bg-gray-100 text-gray-600"
+                              )}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
