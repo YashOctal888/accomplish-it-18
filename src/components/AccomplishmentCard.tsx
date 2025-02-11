@@ -54,18 +54,18 @@ export const AccomplishmentCard = ({
   };
 
   return (
-    <div className="relative pl-8 pb-8 relative before:absolute before:left-[11px] before:top-[28px] before:h-[calc(100%-40px)] before:w-0.5 before:bg-gray-200">
+    <div className="relative pl-4 sm:pl-8 pb-8 relative before:absolute before:left-[11px] before:top-[28px] before:h-[calc(100%-40px)] before:w-0.5 before:bg-gray-200">
       <div className="absolute left-0 top-6 w-6 h-6 rounded-full bg-accent flex items-center justify-center">
         <Check className="w-4 h-4 text-white" />
       </div>
 
       <Card
         className={cn(
-          "w-full transition-all duration-300 hover:shadow-lg animate-slide-up ml-6",
+          "w-full transition-all duration-300 hover:shadow-lg animate-slide-up ml-2 sm:ml-6",
           selected && "ring-2 ring-accent"
         )}
       >
-        <CardHeader className="flex flex-row items-start justify-between space-y-0">
+        <CardHeader className="flex flex-col sm:flex-row items-start justify-between space-y-4 sm:space-y-0 p-4 sm:p-6">
           {view === "private" && onSelect && (
             <Checkbox
               checked={selected}
@@ -73,9 +73,9 @@ export const AccomplishmentCard = ({
               className="mt-1"
             />
           )}
-          <div className="flex-1 ml-4">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-lg leading-tight">{title}</h3>
+          <div className="flex-1 ml-0 sm:ml-4 w-full">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+              <h3 className="font-semibold text-base sm:text-lg leading-tight">{title}</h3>
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                   <Star className="h-4 w-4 text-yellow-500" />
@@ -96,16 +96,16 @@ export const AccomplishmentCard = ({
               ))}
             </div>
             <div className="space-y-2">
-              <div className="flex items-center text-sm text-gray-600">
-                <Calendar className="w-4 h-4 mr-2" />
+              <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                <Calendar className="w-4 h-4 mr-2 flex-shrink-0" />
                 {format(new Date(date), "MMMM d, yyyy")}
               </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Briefcase className="w-4 h-4 mr-2" />
+              <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                <Briefcase className="w-4 h-4 mr-2 flex-shrink-0" />
                 {role}
               </div>
-              <div className="flex items-center text-sm text-gray-600">
-                <Building2 className="w-4 h-4 mr-2" />
+              <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                <Building2 className="w-4 h-4 mr-2 flex-shrink-0" />
                 {company}
               </div>
             </div>
@@ -113,7 +113,7 @@ export const AccomplishmentCard = ({
         </CardHeader>
         {view === "private" && (
           <CardContent>
-            <div className="mt-2 text-sm text-gray-600">
+            <div className="mt-2 text-xs sm:text-sm text-gray-600">
               <p className="italic">{privateDetails}</p>
               
               <div className="mt-4 space-y-4">
@@ -122,18 +122,18 @@ export const AccomplishmentCard = ({
                     {attachments.map((file) => (
                       <div
                         key={file.id}
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors gap-2"
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-3 w-full sm:w-auto">
                           <div className={cn("p-2 rounded-lg", getFileIcon(file.type))}>
                             <FileText className="w-5 h-5" />
                           </div>
-                          <div>
-                            <p className="font-medium">{file.name}</p>
+                          <div className="min-w-0 flex-1">
+                            <p className="font-medium text-sm truncate">{file.name}</p>
                             <p className="text-xs text-gray-500">{file.type.toUpperCase()} • {file.size}</p>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 w-full sm:w-auto justify-end">
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                             <Download className="w-4 h-4" />
                           </Button>
@@ -170,4 +170,3 @@ export const AccomplishmentCard = ({
     </div>
   );
 };
-
