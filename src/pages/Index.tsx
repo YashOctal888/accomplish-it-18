@@ -1,5 +1,7 @@
 
 import { Timeline } from "@/components/Timeline";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { ResumePreview } from "@/components/ResumePreview";
 
 const Index = () => {
   return (
@@ -9,8 +11,16 @@ const Index = () => {
           <h1 className="text-2xl font-semibold text-gray-900">Accomplish It</h1>
         </div>
       </header>
-      <main>
-        <Timeline />
+      <main className="h-[calc(100vh-64px)]">
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={60} minSize={40}>
+            <Timeline />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={40} minSize={30}>
+            <ResumePreview />
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </main>
     </div>
   );
