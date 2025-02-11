@@ -6,6 +6,8 @@ export interface Accomplishment {
   role: string;
   company: string;
   privateDetails: string;
+  description?: string;
+  highlighted?: boolean;
   selected?: boolean;
   tags?: string[];
   attachments?: FileAttachment[];

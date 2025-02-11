@@ -8,11 +8,11 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Settings, User } from "lucide-react";
 import Home from "./pages/Home";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
@@ -26,17 +26,34 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <nav className="border-b">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
             <NavigationMenu>
-              <NavigationMenuList>
+              <NavigationMenuList className="space-x-2">
+                <NavigationMenuItem>
+                  <Link to="/" className="font-bold text-lg">
+                    Accomplish it
+                  </Link>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/" className={navigationMenuTriggerStyle()}>
-                    Accomplishments
+                    Timeline
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/resume-builder" className={navigationMenuTriggerStyle()}>
                     Resume Builder
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/settings" className={navigationMenuTriggerStyle()}>
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/profile" className={navigationMenuTriggerStyle()}>
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
