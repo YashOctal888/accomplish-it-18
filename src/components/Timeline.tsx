@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Share2, Linkedin, FileText } from "lucide-react";
 import { Switch } from "./ui/switch";
 import { toast } from "./ui/use-toast";
+import { ScrollArea } from "./ui/scroll-area";
 
 export const Timeline = () => {
   const {
@@ -45,8 +46,8 @@ export const Timeline = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 animate-fade-in">
-      <div className="flex items-center justify-between mb-8">
+    <div className="h-[calc(100vh-96px)] animate-fade-in">
+      <div className="flex items-center justify-between mb-8 px-4">
         <div className="flex items-center space-x-2">
           <span className="text-sm font-medium">Public</span>
           <Switch
@@ -76,7 +77,7 @@ export const Timeline = () => {
       </div>
 
       {view === "private" && (
-        <div className="flex items-center justify-end space-x-2 mb-4">
+        <div className="flex items-center justify-end space-x-2 mb-4 px-4">
           <Button
             variant="secondary"
             size="sm"
@@ -96,16 +97,18 @@ export const Timeline = () => {
         </div>
       )}
 
-      <div className="relative space-y-0">
-        {accomplishments.map((accomplishment) => (
-          <AccomplishmentCard
-            key={accomplishment.id}
-            accomplishment={accomplishment}
-            view={view}
-            onSelect={view === "private" ? toggleSelected : undefined}
-          />
-        ))}
-      </div>
+      <ScrollArea className="h-[calc(100vh-220px)] px-4">
+        <div className="relative space-y-0">
+          {accomplishments.map((accomplishment) => (
+            <AccomplishmentCard
+              key={accomplishment.id}
+              accomplishment={accomplishment}
+              view={view}
+              onSelect={view === "private" ? toggleSelected : undefined}
+            />
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 };
