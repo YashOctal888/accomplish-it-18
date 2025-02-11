@@ -1,6 +1,6 @@
 
 import { format } from "date-fns";
-import { Medal, Star, Award, Trophy } from "lucide-react";
+import { Medal, Star, Award, Trophy, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
@@ -14,51 +14,50 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-3xl mx-auto py-8 px-4">
-        <Card className="p-6">
-          <div className="space-y-8">
+    <div className="min-h-screen bg-gray-50/50">
+      <main className="max-w-2xl mx-auto py-8 px-4">
+        <Card className="p-6 shadow-sm border-gray-100">
+          <div className="space-y-6">
             {accomplishments.map((accomplishment, index) => {
               const Icon = getIcon(index);
               return (
                 <div key={accomplishment.id} className="relative">
                   {index < accomplishments.length - 1 && (
-                    <div className="absolute left-[17px] top-[28px] h-full w-px bg-gray-200" />
+                    <div className="absolute left-[11px] top-[24px] h-full w-[2px] bg-gray-100" />
                   )}
-                  <div className="flex gap-4">
+                  <div className="flex gap-3">
                     <div className={cn(
-                      "rounded-full p-1 flex-shrink-0",
-                      accomplishment.highlighted ? "bg-amber-100" : "bg-gray-100"
+                      "h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5",
+                      accomplishment.highlighted ? "bg-blue-50 text-blue-500" : "bg-gray-50 text-gray-400"
                     )}>
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-3.5 w-3.5" />
                     </div>
-                    <div className="flex-1 pt-1">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-medium text-gray-900">{accomplishment.title}</h3>
-                          <p className="text-sm text-gray-500">
-                            {format(new Date(accomplishment.date), "d/MM/yyyy")}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-x-2">
+                        <div className="min-w-0">
+                          <h3 className="font-medium text-sm text-gray-900 leading-5">{accomplishment.title}</h3>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {format(new Date(accomplishment.date), "MMM d, yyyy")}
                           </p>
                         </div>
-                        {accomplishment.highlighted && (
-                          <span className="inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20">
-                            Highlight
-                          </span>
-                        )}
+                        <button className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5">
+                          See Details
+                          <ChevronRight className="h-3 w-3" />
+                        </button>
                       </div>
-                      <p className="mt-2 text-sm text-gray-600">
+                      <p className="mt-1.5 text-xs text-gray-600 leading-relaxed">
                         {accomplishment.description}
                       </p>
                       {accomplishment.tags && accomplishment.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-2">
+                        <div className="flex flex-wrap gap-1 mt-2">
                           {accomplishment.tags.map((tag, tagIndex) => (
                             <span
                               key={tagIndex}
                               className={cn(
-                                "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
+                                "inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium",
                                 tag === "highlight"
-                                  ? "bg-amber-50 text-amber-700"
-                                  : "bg-gray-100 text-gray-600"
+                                  ? "bg-blue-50 text-blue-600"
+                                  : "bg-gray-50 text-gray-600"
                               )}
                             >
                               {tag}
