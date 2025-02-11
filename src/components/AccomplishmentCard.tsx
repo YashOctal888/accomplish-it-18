@@ -89,7 +89,12 @@ export const AccomplishmentCard = ({
               {tags?.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-1.5 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600"
+                  className={cn(
+                    "px-1.5 py-0.5 text-xs rounded-full",
+                    tag === "highlight"
+                      ? "bg-accent/10 text-accent font-medium"
+                      : "bg-gray-100 text-gray-600"
+                  )}
                 >
                   {tag}
                 </span>

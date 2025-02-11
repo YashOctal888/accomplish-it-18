@@ -1,3 +1,4 @@
+
 import { create } from "zustand";
 import { Accomplishment, View } from "../types/accomplishment";
 
@@ -9,7 +10,7 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Sales Executive",
     company: "HorizonCorp",
     privateDetails: "Managed a 20-client portfolio worth $1.2M in revenue",
-    tags: ["Sales", "Achievement", "Quarter Goals"],
+    tags: ["Sales", "Achievement", "Quarter Goals", "highlight"],
     attachments: [
       {
         id: "1",
@@ -81,7 +82,7 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Marketing Manager",
     company: "BrandBoost",
     privateDetails: "Increased conversion rate by 35% while reducing cost per acquisition by 20%",
-    tags: ["Marketing", "ROI", "Campaign"],
+    tags: ["Marketing", "ROI", "Campaign", "highlight"],
     attachments: [
       {
         id: "5",
@@ -207,7 +208,7 @@ export const sampleAccomplishments: Accomplishment[] = [
     role: "Customer Success Manager",
     company: "LoyaltyFirst",
     privateDetails: "Increased customer retention by 25% and generated 40% more referrals",
-    tags: ["Loyalty", "Program", "Customer Success"],
+    tags: ["Loyalty", "Program", "Customer Success", "highlight"],
     attachments: [
       {
         id: "12",
