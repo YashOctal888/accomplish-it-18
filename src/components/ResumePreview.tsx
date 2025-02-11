@@ -5,15 +5,22 @@ import { format } from "date-fns";
 import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export const ResumePreview = () => {
   const { getSelectedAccomplishments } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const handleDownload = () => {
-    // TODO: Implement actual PDF generation
-    console.log('Downloading resume...');
+    setShowDownloadModal(true);
   };
 
   const ResumeContent = () => (
@@ -145,28 +152,73 @@ export const ResumePreview = () => {
   }
 
   return (
-    <div className="p-6 h-full overflow-auto bg-white space-y-4">
-      <div className="flex justify-end gap-2">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={handleDownload}
-          className="gap-2"
-        >
-          <Download className="w-4 h-4" />
-          Download Resume
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setIsFullScreen(true)}
-          className="gap-2"
-        >
-          <Maximize2 className="w-4 h-4" />
-          Full Screen
-        </Button>
+    <>
+      <div className="p-6 h-full overflow-auto bg-white space-y-4">
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleDownload}
+            className="gap-2"
+          >
+            <Download className="w-4 h-4" />
+            Download Resume
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setIsFullScreen(true)}
+            className="gap-2"
+          >
+            <Maximize2 className="w-4 h-4" />
+            Full Screen
+          </Button>
+        </div>
+        <ResumeContent />
       </div>
-      <ResumeContent />
-    </div>
+
+      <Dialog open={showDownloadModal} onOpenChange={setShowDownloadModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Download Resume</DialogTitle>
+            <DialogDescription>
+              Choose your download options:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <h3 className="font-semibold text-lg mb-2">Free Download</h3>
+                <p className="text-gray-600 mb-4">Basic PDF format with watermark</p>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    console.log('Downloading free version...');
+                    setShowDownloadModal(false);
+                  }}
+                >
+                  Download Free Version
+                </Button>
+              </div>
+              
+              <div className="bg-primary/5 p-6 rounded-lg border border-primary/20">
+                <h3 className="font-semibold text-lg mb-2">Premium Download</h3>
+                <p className="text-gray-600 mb-4">High-quality PDF format with no watermark</p>
+                <Button
+                  variant="default"
+                  onClick={() => {
+                    console.log('Premium download selected...');
+                    setShowDownloadModal(false);
+                  }}
+                >
+                  Get Premium Version
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
+
