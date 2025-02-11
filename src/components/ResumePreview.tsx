@@ -24,16 +24,16 @@ export const ResumePreview = () => {
   };
 
   const ResumeContent = () => (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Profile Section */}
       <div className="relative">
         {/* Header Image */}
-        <div className="h-48 w-full bg-gradient-to-r from-purple-600 via-purple-400 to-purple-800 rounded-t-lg" />
+        <div className="h-40 w-full bg-gradient-to-r from-blue-500/10 via-blue-400/10 to-blue-500/10 rounded-t-lg" />
         
         {/* Profile Info */}
         <div className="px-6">
-          <div className="relative -mt-24 mb-4">
-            <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100">
+          <div className="relative -mt-20 mb-4">
+            <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-gray-50">
               <img
                 src="/lovable-uploads/c7eac1db-6669-4461-a0b5-a3c4a2e9e8c5.png"
                 alt="Profile"
@@ -42,30 +42,30 @@ export const ResumePreview = () => {
             </div>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">John Doe</h1>
-              <p className="text-gray-600 mt-1">Professional at {selectedAccomplishments[0]?.company}</p>
+              <h1 className="text-2xl font-semibold text-gray-900">John Doe</h1>
+              <p className="text-sm text-gray-600 mt-0.5">Professional at {selectedAccomplishments[0]?.company}</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <MapPin className="w-4 h-4" />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 text-gray-600 text-sm">
+                  <MapPin className="w-3.5 h-3.5" />
                   <span>New York, USA</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <AtSign className="w-4 h-4" />
+                <div className="flex items-center gap-1.5 text-gray-600 text-sm">
+                  <AtSign className="w-3.5 h-3.5" />
                   <span>Portfolio</span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Globe className="w-4 h-4" />
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 text-gray-600 text-sm">
+                  <Globe className="w-3.5 h-3.5" />
                   <span>Website</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Mail className="w-4 h-4" />
+                <div className="flex items-center gap-1.5 text-gray-600 text-sm">
+                  <Mail className="w-3.5 h-3.5" />
                   <span>Email</span>
                 </div>
               </div>
@@ -74,33 +74,50 @@ export const ResumePreview = () => {
         </div>
 
         {/* Experience Section */}
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Experience</h2>
-          <div className="space-y-6">
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Experience</h2>
+          <div className="space-y-4">
             {selectedAccomplishments.map((accomplishment) => (
-              <Card key={accomplishment.id} className="border border-gray-200 hover:shadow-md transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                      <Building2 className="w-6 h-6 text-gray-500" />
+              <Card key={accomplishment.id} className="border border-gray-100 hover:shadow-sm transition-shadow">
+                <CardHeader className="p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Building2 className="w-5 h-5 text-gray-400" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-gray-900">{accomplishment.title}</h3>
-                      <div className="space-y-1 mt-2">
-                        <div className="flex items-center text-sm text-gray-600">
-                          <Briefcase className="w-4 h-4 mr-2" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-sm text-gray-900">{accomplishment.title}</h3>
+                      <div className="space-y-1 mt-1">
+                        <div className="flex items-center text-xs text-gray-600">
+                          <Briefcase className="w-3.5 h-3.5 mr-1.5" />
                           {accomplishment.role} at {accomplishment.company}
                         </div>
-                        <div className="flex items-center text-sm text-gray-600">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          {format(new Date(accomplishment.date), "MMMM d, yyyy")}
+                        <div className="flex items-center text-xs text-gray-600">
+                          <Calendar className="w-3.5 h-3.5 mr-1.5" />
+                          {format(new Date(accomplishment.date), "MMM d, yyyy")}
                         </div>
                       </div>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600">{accomplishment.privateDetails}</p>
+                <CardContent className="px-4 pb-4">
+                  <p className="text-xs text-gray-600 leading-relaxed">{accomplishment.privateDetails}</p>
+                  {accomplishment.tags && accomplishment.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {accomplishment.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className={cn(
+                            "inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium",
+                            tag === "highlight"
+                              ? "bg-blue-50 text-blue-600"
+                              : "bg-gray-50 text-gray-600"
+                          )}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
