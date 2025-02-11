@@ -2,7 +2,7 @@
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2 } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 
@@ -10,6 +10,11 @@ export const ResumePreview = () => {
   const { getSelectedAccomplishments } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const handleDownload = () => {
+    // TODO: Implement actual PDF generation
+    console.log('Downloading resume...');
+  };
 
   const ResumeContent = () => (
     <div className="space-y-8">
@@ -113,7 +118,16 @@ export const ResumePreview = () => {
     return (
       <div className="fixed inset-0 bg-white z-50 overflow-auto">
         <div className="max-w-4xl mx-auto p-8">
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end mb-4 gap-2">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleDownload}
+              className="gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </Button>
             <Button 
               variant="outline" 
               size="sm"
@@ -132,7 +146,16 @@ export const ResumePreview = () => {
 
   return (
     <div className="p-6 h-full overflow-auto bg-white space-y-4">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={handleDownload}
+          className="gap-2"
+        >
+          <Download className="w-4 h-4" />
+          Download Resume
+        </Button>
         <Button 
           variant="outline" 
           size="sm"
