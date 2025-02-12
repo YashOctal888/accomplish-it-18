@@ -14,10 +14,10 @@ import { useState, useMemo } from "react";
 
 export const Timeline = () => {
   const { accomplishments } = useAccomplishmentStore();
-  const [selectedCompany, setSelectedCompany] = useState<string>("");
-  const [selectedYear, setSelectedYear] = useState<string>("");
-  const [selectedMonth, setSelectedMonth] = useState<string>("");
-  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedCompany, setSelectedCompany] = useState<string>("all");
+  const [selectedYear, setSelectedYear] = useState<string>("all");
+  const [selectedMonth, setSelectedMonth] = useState<string>("all");
+  const [selectedTag, setSelectedTag] = useState<string>("all");
 
   // Get unique companies
   const companies = useMemo(() => {
@@ -39,10 +39,10 @@ export const Timeline = () => {
   const filteredAccomplishments = useMemo(() => {
     return accomplishments.filter(accomplishment => {
       const date = new Date(accomplishment.date);
-      const matchesCompany = !selectedCompany || accomplishment.company === selectedCompany;
-      const matchesYear = !selectedYear || format(date, "yyyy") === selectedYear;
-      const matchesMonth = !selectedMonth || format(date, "MM") === selectedMonth;
-      const matchesTag = !selectedTag || accomplishment.tags?.includes(selectedTag);
+      const matchesCompany = selectedCompany === "all" || accomplishment.company === selectedCompany;
+      const matchesYear = selectedYear === "all" || format(date, "yyyy") === selectedYear;
+      const matchesMonth = selectedMonth === "all" || format(date, "MM") === selectedMonth;
+      const matchesTag = selectedTag === "all" || accomplishment.tags?.includes(selectedTag);
       return matchesCompany && matchesYear && matchesMonth && matchesTag;
     });
   }, [accomplishments, selectedCompany, selectedYear, selectedMonth, selectedTag]);
@@ -68,7 +68,7 @@ export const Timeline = () => {
               <SelectValue placeholder="Company" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Companies</SelectItem>
+              <SelectItem value="all">All Companies</SelectItem>
               {companies.map(company => (
                 <SelectItem key={company} value={company}>
                   {company}
@@ -82,7 +82,7 @@ export const Timeline = () => {
               <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Years</SelectItem>
+              <SelectItem value="all">All Years</SelectItem>
               {years.map(year => (
                 <SelectItem key={year} value={year}>
                   {year}
@@ -96,7 +96,7 @@ export const Timeline = () => {
               <SelectValue placeholder="Month" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Months</SelectItem>
+              <SelectItem value="all">All Months</SelectItem>
               {Array.from({ length: 12 }, (_, i) => {
                 const month = (i + 1).toString().padStart(2, '0');
                 return (
@@ -113,7 +113,7 @@ export const Timeline = () => {
               <SelectValue placeholder="Tag" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Tags</SelectItem>
+              <SelectItem value="all">All Tags</SelectItem>
               {tags.map(tag => (
                 <SelectItem key={tag} value={tag}>
                   {tag}
