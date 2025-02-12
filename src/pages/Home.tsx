@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus, Globe, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -175,6 +174,10 @@ const Home = () => {
     });
   };
 
+  const handleViewChange = (checked: boolean) => {
+    setView(checked ? "public" : "private");
+  };
+
   const ProfileSidebar = () => {
     if (view !== "public") return null;
 
@@ -274,7 +277,7 @@ const Home = () => {
                   <Switch
                     id="view-mode"
                     checked={view === "public"}
-                    onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+                    onCheckedChange={handleViewChange}
                   />
                 </div>
                 <Button
@@ -299,7 +302,7 @@ const Home = () => {
                 <Switch
                   id="view-mode"
                   checked={view === "public"}
-                  onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+                  onCheckedChange={handleViewChange}
                 />
               </div>
             </div>
