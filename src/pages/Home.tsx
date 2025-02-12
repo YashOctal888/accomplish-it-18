@@ -148,7 +148,13 @@ const Home = () => {
 
   const getCompanyDisplay = (company: string) => {
     if (view === "private") return company;
-    return "Company ***";
+    return <span className="bg-gray-200 px-1.5 py-0.5 rounded">REDACTED</span>;
+  };
+
+  const formatDetails = (details: string) => {
+    if (view === "private") return details;
+    const redactedText = blurMetrics(details);
+    return <span dangerouslySetInnerHTML={{ __html: redactedText }} />;
   };
 
   const selectedItem = accomplishments.find(a => a.id === selectedAccomplishment);
@@ -175,7 +181,7 @@ const Home = () => {
   };
 
   const handleViewToggle = (checked: boolean) => {
-    setView(checked ? "public" : "private" as View);
+    setView(checked ? "public" : "private");
   };
 
   const ProfileSection = () => {
@@ -331,7 +337,9 @@ const Home = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-x-2">
                               <div className="min-w-0">
-                                <h3 className="font-medium text-sm text-gray-900 leading-5">{accomplishment.title}</h3>
+                                <h3 className="font-medium text-sm text-gray-900 leading-5">
+                                  {accomplishment.title}
+                                </h3>
                                 <p className="text-xs text-gray-500 mt-0.5">
                                   {format(new Date(accomplishment.date), "MMM d, yyyy")}
                                 </p>
@@ -346,9 +354,9 @@ const Home = () => {
                                 </button>
                               )}
                             </div>
-                            <p className="mt-1.5 text-xs text-gray-600 leading-relaxed">
-                              {view === "private" ? accomplishment.privateDetails : blurMetrics(accomplishment.privateDetails)}
-                            </p>
+                            <div className="mt-1.5 text-xs text-gray-600 leading-relaxed">
+                              {formatDetails(accomplishment.privateDetails)}
+                            </div>
                             {accomplishment.tags && accomplishment.tags.length > 0 && (
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {accomplishment.tags.map((tag, tagIndex) => (
@@ -411,7 +419,7 @@ const Home = () => {
               </div>
 
               <div className="text-sm text-gray-600">
-                <p>{view === "private" ? selectedItem.privateDetails : blurMetrics(selectedItem.privateDetails)}</p>
+                <p>{view === "private" ? selectedItem.privateDetails : formatDetails(selectedItem.privateDetails)}</p>
               </div>
 
               {selectedItem.attachments && selectedItem.attachments.length > 0 && view === "private" && (
