@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { cn } from "@/lib/utils"; // Added this import
 import {
   Dialog,
   DialogContent,
