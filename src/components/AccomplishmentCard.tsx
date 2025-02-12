@@ -3,10 +3,9 @@ import { Accomplishment, View } from "../types/accomplishment";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
 import { format } from "date-fns";
-import { Check, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Star, Pencil } from "lucide-react";
+import { Check, Calendar, Briefcase, Building2, FileText, Download, Share2, Star, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { toast } from "./ui/use-toast";
 
 interface AccomplishmentCardProps {
   accomplishment: Accomplishment;
@@ -20,25 +19,6 @@ export const AccomplishmentCard = ({
   onSelect,
 }: AccomplishmentCardProps) => {
   const { title, date, role, company, privateDetails, selected, attachments, tags } = accomplishment;
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // In a real app, this would upload to a server
-    const fakeUpload = {
-      id: Math.random().toString(),
-      name: file.name,
-      type: file.type,
-      size: `${(file.size / (1024 * 1024)).toFixed(1)}MB`,
-      url: URL.createObjectURL(file)
-    };
-
-    toast({
-      title: "File uploaded",
-      description: `${file.name} has been uploaded successfully.`,
-    });
-  };
 
   const getFileIcon = (type: string) => {
     switch (type.toLowerCase()) {
@@ -159,28 +139,7 @@ export const AccomplishmentCard = ({
             </div>
           </div>
         </CardHeader>
-        {view === "private" && (
-          <CardContent className="pt-0 px-3 pb-3">
-            <div className="flex items-center justify-center">
-              <label className="cursor-pointer">
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileUpload}
-                  accept=".doc,.docx,.pdf,.ppt,.pptx,.xls,.xlsx"
-                />
-                <Button variant="outline" size="sm" asChild>
-                  <div>
-                    <Upload className="w-3 h-3 mr-1" />
-                    <span className="text-[10px]">Upload Document</span>
-                  </div>
-                </Button>
-              </label>
-            </div>
-          </CardContent>
-        )}
       </Card>
     </div>
   );
 };
-
