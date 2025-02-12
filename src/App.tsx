@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +18,24 @@ import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  
+  return (
+    <Link 
+      to={to} 
+      className={`relative px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
+        isActive 
+          ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary" 
+          : "text-muted-foreground hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-primary/50"
+      }`}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -35,26 +53,30 @@ const App = () => (
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/" className={navigationMenuTriggerStyle()}>
+                  <NavLink to="/">
                     Timeline
-                  </Link>
+                  </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/resume-builder" className={navigationMenuTriggerStyle()}>
+                  <NavLink to="/resume-builder">
                     Resume Builder
-                  </Link>
+                  </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/settings" className={navigationMenuTriggerStyle()}>
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
-                  </Link>
+                  <NavLink to="/settings">
+                    <div className="flex items-center">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Settings
+                    </div>
+                  </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/profile" className={navigationMenuTriggerStyle()}>
-                    <User className="h-4 w-4 mr-2" />
-                    Profile
-                  </Link>
+                  <NavLink to="/profile">
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-2" />
+                      Profile
+                    </div>
+                  </NavLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
