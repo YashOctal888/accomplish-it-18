@@ -26,10 +26,10 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
   return (
     <Link 
       to={to} 
-      className={`relative px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
+      className={`relative h-14 flex items-center px-4 text-sm font-medium transition-colors hover:text-primary ${
         isActive 
-          ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary" 
-          : "text-muted-foreground hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-primary/50"
+          ? "text-primary after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:bg-primary" 
+          : "text-muted-foreground hover:after:absolute hover:after:bottom-[-1px] hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-primary/50"
       }`}
     >
       {children}
