@@ -6,7 +6,7 @@ import { ResumePreview } from "@/components/ResumePreview";
 const ResumeBuilder = () => {
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <main className="h-screen">
+      <main className="h-screen pt-8">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={60} minSize={40}>
             <Timeline />
