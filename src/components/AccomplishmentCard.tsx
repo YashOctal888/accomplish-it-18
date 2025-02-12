@@ -65,109 +65,117 @@ export const AccomplishmentCard = ({
           selected && "ring-2 ring-accent"
         )}
       >
-        <CardHeader className="space-y-2 p-2.5 sm:p-3">
-          {view === "private" && onSelect && (
-            <Checkbox
-              checked={selected}
-              onCheckedChange={() => onSelect(accomplishment.id)}
-              className="mt-0.5"
-            />
-          )}
-          <div className="flex-1 w-full">
-            <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="font-medium text-xs sm:text-sm leading-tight">{title}</h3>
-              <div className="flex items-center gap-0.5 flex-shrink-0">
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <Star className="h-3 w-3 text-yellow-500" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <Pencil className="h-3 w-3 text-gray-500" />
-                </Button>
+        <CardHeader className="p-3">
+          <div className="flex items-start gap-2">
+            {view === "private" && onSelect && (
+              <Checkbox
+                checked={selected}
+                onCheckedChange={() => onSelect(accomplishment.id)}
+                className="mt-1"
+              />
+            )}
+            
+            <div className="flex-1 min-w-0">
+              {/* First row */}
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="font-medium text-sm">{title}</h3>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <Star className="h-3.5 w-3.5 text-yellow-500" />
+                  <Pencil className="h-3.5 w-3.5 text-gray-500" />
+                </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-1 mb-1.5">
-              {tags?.map((tag, index) => (
-                <span
-                  key={index}
-                  className={cn(
-                    "px-1 py-0.5 text-[10px] rounded-full",
-                    tag === "highlight"
-                      ? "bg-accent/10 text-accent font-medium"
-                      : "bg-gray-100 text-gray-600"
-                  )}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center text-[11px] text-gray-600">
-                <Calendar className="w-3 h-3 mr-1 flex-shrink-0" />
-                {format(new Date(date), "MMMM d, yyyy")}
+
+              {/* Second row */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
+                <div className="flex items-center">
+                  <Building2 className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {company}
+                </div>
+                <div className="flex items-center">
+                  <Briefcase className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {role}
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {format(new Date(date), "MMM d, yyyy")}
+                </div>
               </div>
-              <div className="flex items-center text-[11px] text-gray-600">
-                <Briefcase className="w-3 h-3 mr-1 flex-shrink-0" />
-                {role}
-              </div>
-              <div className="flex items-center text-[11px] text-gray-600">
-                <Building2 className="w-3 h-3 mr-1 flex-shrink-0" />
-                {company}
-              </div>
+
+              {/* Description */}
+              {privateDetails && (
+                <p className="text-xs text-gray-600 mb-2">
+                  {privateDetails}
+                </p>
+              )}
+
+              {/* Documents section */}
+              {attachments && attachments.length > 0 && (
+                <div className="space-y-1.5 mb-2">
+                  {attachments.map((file) => (
+                    <div
+                      key={file.id}
+                      className="flex items-center justify-between p-1.5 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center space-x-1.5 min-w-0">
+                        <div className={cn("p-1 rounded-md", getFileIcon(file.type))}>
+                          <FileText className="w-3.5 h-3.5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-[10px] truncate">{file.name}</p>
+                          <p className="text-[9px] text-gray-500">{file.type.toUpperCase()} • {file.size}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-0.5 flex-shrink-0">
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          <Download className="w-3 h-3" />
+                        </Button>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          <Share2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Tags */}
+              {tags && tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className={cn(
+                        "px-1.5 py-0.5 text-[10px] rounded-full",
+                        tag === "highlight"
+                          ? "bg-accent/10 text-accent font-medium"
+                          : "bg-gray-100 text-gray-600"
+                      )}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </CardHeader>
         {view === "private" && (
-          <CardContent className="pt-0 p-2.5 sm:p-3">
-            <div className="text-[11px] text-gray-600">
-              <p className="italic">{privateDetails}</p>
-              
-              <div className="mt-2 space-y-1.5">
-                {attachments && attachments.length > 0 && (
-                  <div className="space-y-1.5">
-                    {attachments.map((file) => (
-                      <div
-                        key={file.id}
-                        className="flex items-center justify-between p-1.5 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
-                      >
-                        <div className="flex items-center space-x-1.5 min-w-0">
-                          <div className={cn("p-1 rounded-md", getFileIcon(file.type))}>
-                            <FileText className="w-3.5 h-3.5" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="font-medium text-[10px] truncate">{file.name}</p>
-                            <p className="text-[9px] text-gray-500">{file.type.toUpperCase()} • {file.size}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-0.5 flex-shrink-0">
-                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                            <Download className="w-3 h-3" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                            <Share2 className="w-3 h-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+          <CardContent className="pt-0 px-3 pb-3">
+            <div className="flex items-center justify-center">
+              <label className="cursor-pointer">
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                  accept=".doc,.docx,.pdf,.ppt,.pptx,.xls,.xlsx"
+                />
+                <Button variant="outline" size="sm" asChild>
+                  <div>
+                    <Upload className="w-3 h-3 mr-1" />
+                    <span className="text-[10px]">Upload Document</span>
                   </div>
-                )}
-                
-                <div className="flex items-center justify-center mt-3">
-                  <label className="cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={handleFileUpload}
-                      accept=".doc,.docx,.pdf,.ppt,.pptx,.xls,.xlsx"
-                    />
-                    <Button variant="outline" size="sm" asChild>
-                      <div>
-                        <Upload className="w-3 h-3 mr-1" />
-                        <span className="text-[10px]">Upload Document</span>
-                      </div>
-                    </Button>
-                  </label>
-                </div>
-              </div>
+                </Button>
+              </label>
             </div>
           </CardContent>
         )}
