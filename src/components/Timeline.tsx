@@ -63,8 +63,8 @@ export const Timeline = () => {
   const selectTriggerClassName = "h-8 bg-white border border-[#8E9196] hover:bg-gray-50 hover:border-gray-400 transition-colors text-sm font-medium";
 
   return (
-    <div className="h-[calc(100vh-96px)] animate-fade-in">
-      <div className="p-4 space-y-2">
+    <div className="h-[calc(100vh-96px)] animate-fade-in bg-white">
+      <div className="p-4 space-y-2 border-b">
         <div className="flex flex-wrap gap-2">
           <Select value={selectedCompany} onValueChange={setSelectedCompany}>
             <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
