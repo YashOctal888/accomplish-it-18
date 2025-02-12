@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings } from "lucide-react";
+import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
@@ -10,6 +10,9 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { View } from "@/types/accomplishment";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 interface VisibilitySettings {
   title: boolean;
@@ -26,6 +29,18 @@ const Home = () => {
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | null>(null);
   const [view, setView] = useState<View>("private");
   const [showSettings, setShowSettings] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const { toast } = useToast();
+  
+  const [newAccomplishment, setNewAccomplishment] = useState({
+    title: "",
+    date: format(new Date(), "yyyy-MM-dd"),
+    role: "",
+    company: "",
+    privateDetails: "",
+    tags: [] as string[]
+  });
+
   const [visibilitySettings, setVisibilitySettings] = useState<VisibilitySettings>({
     title: true,
     date: true,
@@ -63,6 +78,44 @@ const Home = () => {
     setSelectedAccomplishment(null);
   };
 
+  const handleAddAccomplishment = () => {
+    // Basic validation
+    if (!newAccomplishment.title || !newAccomplishment.privateDetails || !newAccomplishment.role || !newAccomplishment.company) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const accomplishment = {
+      id: Date.now().toString(), // Simple way to generate unique ID
+      ...newAccomplishment,
+      attachments: [],
+      tags: newAccomplishment.tags
+    };
+
+    useAccomplishmentStore.setState((state) => ({
+      accomplishments: [accomplishment, ...state.accomplishments]
+    }));
+
+    setNewAccomplishment({
+      title: "",
+      date: format(new Date(), "yyyy-MM-dd"),
+      role: "",
+      company: "",
+      privateDetails: "",
+      tags: []
+    });
+
+    setShowAddModal(false);
+    toast({
+      title: "Success",
+      description: "Accomplishment added successfully!"
+    });
+  };
+
   // Function to blur metrics in text
   const blurMetrics = (text: string) => {
     return text.replace(/\$?\d+([,.]?\d+)?(\s*%|\s*k|\s*M)?/g, '***');
@@ -79,36 +132,46 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       <main className="max-w-2xl mx-auto py-8 px-4">
-        <div className="flex justify-end mb-4 items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-              {view === "private" ? (
-                <>
-                  <EyeOff className="w-4 h-4" />
-                  Private View
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4" />
-                  Public View
-                </>
-              )}
-            </Label>
-            <Switch
-              id="view-mode"
-              checked={view === "public"}
-              onCheckedChange={(checked) => setView(checked ? "public" : "private")}
-            />
-          </div>
+        <div className="flex justify-between mb-4 items-center">
           <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0"
-            onClick={() => setShowSettings(true)}
+            onClick={() => setShowAddModal(true)}
+            className="gap-2"
           >
-            <Settings className="h-4 w-4" />
+            <Plus className="h-4 w-4" />
+            Add Accomplishment
           </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
+                {view === "private" ? (
+                  <>
+                    <EyeOff className="w-4 h-4" />
+                    Private View
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-4 h-4" />
+                    Public View
+                  </>
+                )}
+              </Label>
+              <Switch
+                id="view-mode"
+                checked={view === "public"}
+                onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+              />
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setShowSettings(true)}
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
+
         <Card className="p-6 shadow-sm border-gray-100">
           <div className="space-y-6">
             {Object.entries(groupedAccomplishments).map(([dateGroup, items], groupIndex) => (
@@ -301,6 +364,98 @@ const Home = () => {
                 </Label>
               </div>
             ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Accomplishment Modal */}
+      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Add New Accomplishment</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                value={newAccomplishment.title}
+                onChange={(e) => setNewAccomplishment(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="E.g., Launched new product feature"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="date">Date</Label>
+              <Input
+                id="date"
+                type="date"
+                value={newAccomplishment.date}
+                onChange={(e) => setNewAccomplishment(prev => ({ ...prev, date: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                value={newAccomplishment.role}
+                onChange={(e) => setNewAccomplishment(prev => ({ ...prev, role: e.target.value }))}
+                placeholder="E.g., Product Manager"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                value={newAccomplishment.company}
+                onChange={(e) => setNewAccomplishment(prev => ({ ...prev, company: e.target.value }))}
+                placeholder="E.g., Tech Corp"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="details">Details</Label>
+              <Textarea
+                id="details"
+                value={newAccomplishment.privateDetails}
+                onChange={(e) => setNewAccomplishment(prev => ({ ...prev, privateDetails: e.target.value }))}
+                placeholder="Describe your accomplishment with specific metrics and impact..."
+                className="min-h-[100px]"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Tags</Label>
+              <div className="flex flex-wrap gap-2">
+                {["Achievement", "Leadership", "Project", "Innovation", "Sales", "Technical"].map((tag) => (
+                  <div key={tag} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={tag}
+                      checked={newAccomplishment.tags.includes(tag)}
+                      onCheckedChange={(checked) => {
+                        setNewAccomplishment(prev => ({
+                          ...prev,
+                          tags: checked
+                            ? [...prev.tags, tag]
+                            : prev.tags.filter(t => t !== tag)
+                        }));
+                      }}
+                    />
+                    <label
+                      htmlFor={tag}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {tag}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowAddModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddAccomplishment}>
+              Add Accomplishment
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
