@@ -1,7 +1,7 @@
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download, FileText, Linkedin } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -18,13 +18,9 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
   const { getSelectedAccomplishments, clearSelection } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
 
-  const handleDownload = () => {
-    setShowDownloadModal(true);
-  };
-
-  const handleExport = (platform: "resume" | "linkedin") => {
+  const handleExport = () => {
     if (selectedAccomplishments.length === 0) {
       toast({
         title: "No accomplishments selected",
@@ -33,22 +29,13 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
       });
       return;
     }
-    // In a real app, this would format and export the accomplishments
-    toast({
-      title: "Export successful!",
-      description: `${selectedAccomplishments.length} accomplishments exported to ${platform}.`,
-    });
-    clearSelection();
+    setShowExportModal(true);
   };
 
   const ResumeContent = () => (
     <div className="space-y-6">
-      {/* Profile Section */}
       <div className="relative">
-        {/* Header Image */}
         <div className="h-40 w-full bg-gradient-to-r from-blue-500/10 via-blue-400/10 to-blue-500/10 rounded-t-lg" />
-        
-        {/* Profile Info */}
         <div className="px-6">
           <div className="relative -mt-20 mb-4">
             <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-gray-50">
@@ -59,13 +46,11 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
               />
             </div>
           </div>
-          
           <div className="space-y-3">
             <div>
               <h1 className="text-2xl font-semibold text-gray-900">John Doe</h1>
               <p className="text-sm text-gray-600 mt-0.5">Professional at {selectedAccomplishments[0]?.company}</p>
             </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-1.5 text-gray-600 text-sm">
@@ -90,8 +75,6 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
             </div>
           </div>
         </div>
-
-        {/* Experience Section */}
         <div className="mt-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Experience</h2>
           <div className="space-y-4">
@@ -164,11 +147,11 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
             <Button 
               variant="outline" 
               size="sm"
-              onClick={handleDownload}
+              onClick={handleExport}
               className="gap-2"
             >
-              <Download className="w-4 h-4" />
-              Download Resume
+              <FileText className="w-4 h-4" />
+              Export
             </Button>
             <Button 
               variant="outline" 
@@ -191,31 +174,13 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
       <div className="p-6 h-full overflow-auto bg-white space-y-4">
         <div className="flex justify-end gap-2">
           <Button 
-            variant="secondary" 
+            variant="outline" 
             size="sm"
-            onClick={() => handleExport("linkedin")}
-            className="gap-2"
-          >
-            <Linkedin className="w-4 h-4" />
-            Export to LinkedIn
-          </Button>
-          <Button 
-            variant="secondary" 
-            size="sm"
-            onClick={() => handleExport("resume")}
+            onClick={handleExport}
             className="gap-2"
           >
             <FileText className="w-4 h-4" />
-            Export to Resume
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={handleDownload}
-            className="gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Download Resume
+            Export
           </Button>
           <Button 
             variant="outline" 
@@ -230,38 +195,38 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
         <ResumeContent />
       </div>
 
-      <Dialog open={showDownloadModal} onOpenChange={setShowDownloadModal}>
+      <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Download Resume</DialogTitle>
+            <DialogTitle>Export Options</DialogTitle>
             <DialogDescription>
-              Choose your download options:
+              Choose your export format:
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="space-y-4">
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 className="font-semibold text-lg mb-2">Free Download</h3>
-                <p className="text-gray-600 mb-4">Basic PDF format with watermark</p>
+                <h3 className="font-semibold text-lg mb-2">Basic Export</h3>
+                <p className="text-gray-600 mb-4">Standard format with watermark</p>
                 <Button
                   variant="secondary"
                   onClick={() => {
-                    console.log('Downloading free version...');
-                    setShowDownloadModal(false);
+                    console.log('Exporting basic version...');
+                    setShowExportModal(false);
                   }}
                 >
-                  Download Free Version
+                  Export Basic Version
                 </Button>
               </div>
               
               <div className="bg-primary/5 p-6 rounded-lg border border-primary/20">
-                <h3 className="font-semibold text-lg mb-2">Premium Download</h3>
-                <p className="text-gray-600 mb-4">High-quality PDF format with no watermark</p>
+                <h3 className="font-semibold text-lg mb-2">Premium Export</h3>
+                <p className="text-gray-600 mb-4">High-quality format with no watermark</p>
                 <Button
                   variant="default"
                   onClick={() => {
-                    console.log('Premium download selected...');
-                    setShowDownloadModal(false);
+                    console.log('Premium export selected...');
+                    setShowExportModal(false);
                   }}
                 >
                   Get Premium Version
