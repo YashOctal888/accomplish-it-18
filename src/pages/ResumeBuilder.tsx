@@ -1,12 +1,18 @@
 
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Sparkles } from "lucide-react";
+import { PlusCircle, Sparkles, Linkedin } from "lucide-react";
 import { useState } from "react";
 import { ResumeBuilderModal } from "@/components/ResumeBuilderModal";
 import { Card } from "@/components/ui/card";
 
 const ResumeBuilder = () => {
   const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<'resume' | 'linkedin'>('resume');
+
+  const handleModalOpen = (type: 'resume' | 'linkedin') => {
+    setModalType(type);
+    setShowModal(true);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -17,7 +23,7 @@ const ResumeBuilder = () => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                onClick={() => setShowModal(true)}
+                onClick={() => handleModalOpen('resume')}
                 className="gap-2 w-full"
               >
                 <PlusCircle className="w-5 h-5" />
@@ -27,11 +33,21 @@ const ResumeBuilder = () => {
               <Button
                 variant="secondary"
                 size="lg"
-                onClick={() => setShowModal(true)}
+                onClick={() => handleModalOpen('resume')}
                 className="gap-2 w-full"
               >
                 <Sparkles className="w-5 h-5" />
                 Let AI Build Your Resume
+              </Button>
+              <div className="text-sm text-muted-foreground pt-2">or</div>
+              <Button
+                variant="default"
+                size="lg"
+                onClick={() => handleModalOpen('linkedin')}
+                className="gap-2 w-full bg-[#0077B5] hover:bg-[#006097]"
+              >
+                <Linkedin className="w-5 h-5" />
+                Create LinkedIn Update
               </Button>
             </div>
 
@@ -68,7 +84,7 @@ const ResumeBuilder = () => {
             </div>
           </div>
         ) : (
-          <ResumeBuilderModal onClose={() => setShowModal(false)} />
+          <ResumeBuilderModal onClose={() => setShowModal(false)} type={modalType} />
         )}
       </main>
     </div>

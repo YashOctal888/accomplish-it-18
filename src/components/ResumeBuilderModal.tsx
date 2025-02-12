@@ -7,15 +7,18 @@ import { Button } from "@/components/ui/button";
 
 interface ResumeBuilderModalProps {
   onClose: () => void;
+  type?: 'resume' | 'linkedin';
 }
 
-export const ResumeBuilderModal = ({ onClose }: ResumeBuilderModalProps) => {
+export const ResumeBuilderModal = ({ onClose, type = 'resume' }: ResumeBuilderModalProps) => {
   return (
     <div className="fixed inset-0 z-50 bg-background">
       {/* Header */}
       <div className="border-b">
         <div className="flex h-14 items-center justify-between px-4 max-w-7xl mx-auto">
-          <div className="font-semibold">Create New Resume</div>
+          <div className="font-semibold">
+            {type === 'linkedin' ? 'Create LinkedIn Update' : 'Create New Resume'}
+          </div>
           <Button 
             variant="ghost" 
             size="icon"
@@ -34,7 +37,7 @@ export const ResumeBuilderModal = ({ onClose }: ResumeBuilderModalProps) => {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={40} minSize={30}>
-            <ResumePreview />
+            <ResumePreview type={type} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
