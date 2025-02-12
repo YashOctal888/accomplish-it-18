@@ -12,7 +12,14 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Settings, User } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
+import { Settings, User, ChevronDown, LogOut } from "lucide-react";
 import Home from "./pages/Home";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
@@ -34,6 +41,39 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
     >
       {children}
     </Link>
+  );
+};
+
+const ProfileDropdown = () => {
+  const location = useLocation();
+  
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="flex items-center gap-2 px-4 h-14 text-sm font-medium hover:text-primary">
+        <User className="h-4 w-4" />
+        <span>Profile</span>
+        <ChevronDown className="h-4 w-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <Link to="/profile">
+          <DropdownMenuItem className="cursor-pointer">
+            <User className="h-4 w-4 mr-2" />
+            Profile
+          </DropdownMenuItem>
+        </Link>
+        <Link to="/settings">
+          <DropdownMenuItem className="cursor-pointer">
+            <Settings className="h-4 w-4 mr-2" />
+            Settings
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer text-red-600">
+          <LogOut className="h-4 w-4 mr-2" />
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -62,24 +102,9 @@ const App = () => (
                     Resume Builder
                   </NavLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavLink to="/settings">
-                    <div className="flex items-center">
-                      <Settings className="h-4 w-4 mr-2" />
-                      Settings
-                    </div>
-                  </NavLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavLink to="/profile">
-                    <div className="flex items-center">
-                      <User className="h-4 w-4 mr-2" />
-                      Profile
-                    </div>
-                  </NavLink>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+            <ProfileDropdown />
           </div>
         </nav>
         <Routes>
