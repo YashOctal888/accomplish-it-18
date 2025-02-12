@@ -174,17 +174,17 @@ const Home = () => {
     });
   };
 
-  const handleViewChange = (checked: boolean) => {
-    setView(checked ? "public" : "private");
+  const handleViewToggle = (checked: boolean) => {
+    setView(checked ? "public" : "private" as View);
   };
 
-  const ProfileSidebar = () => {
+  const ProfileSection = () => {
     if (view !== "public") return null;
 
     return (
-      <div className="w-64 space-y-6">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <Avatar className="w-32 h-32">
+      <div className="mb-8">
+        <div className="flex flex-col items-center text-center space-y-4 mb-6">
+          <Avatar className="w-24 h-24">
             <AvatarImage src={profileSettings.avatarUrl} alt={profileSettings.name} />
             <AvatarFallback>{profileSettings.name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
@@ -194,7 +194,7 @@ const Home = () => {
           </div>
         </div>
         
-        <div className="space-y-4">
+        <div className="flex justify-center gap-6">
           {profileSettings.website && (
             <a href={profileSettings.website} target="_blank" rel="noopener noreferrer" 
                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
@@ -225,9 +225,7 @@ const Home = () => {
           )}
         </div>
 
-        <Separator />
-
-        <div className="space-y-4">
+        <div className="flex justify-center gap-6 mt-4">
           {profileSettings.email && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Mail className="h-4 w-4" />
@@ -247,6 +245,7 @@ const Home = () => {
             </div>
           )}
         </div>
+        <Separator className="mt-6" />
       </div>
     );
   };
@@ -254,130 +253,129 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-center gap-8">
-          {view === "public" && <ProfileSidebar />}
-          <main className="max-w-2xl w-full py-8">
-            {view === "private" && (
-              <div className="flex justify-between mb-4 items-center">
-                <Button
-                  onClick={() => setShowAddModal(true)}
-                  className="gap-2"
-                >
-                  <Plus className="h-4 w-4" />
-                  Add Accomplishment
-                </Button>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-                      <EyeOff className="w-4 h-4" />
-                      Private View
-                    </Label>
-                    <Switch
-                      id="view-mode"
-                      checked={view === "public"}
-                      onCheckedChange={(checked) => setView(checked ? "public" : "private")}
-                    />
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={() => setShowSettings(true)}
-                  >
-                    <Settings className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {view === "public" && (
-              <div className="flex justify-end mb-4">
+        <main className="max-w-2xl mx-auto py-8">
+          {view === "private" && (
+            <div className="flex justify-between mb-4 items-center">
+              <Button
+                onClick={() => setShowAddModal(true)}
+                className="gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Add Accomplishment
+              </Button>
+              <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    Public View
+                    <EyeOff className="w-4 h-4" />
+                    Private View
                   </Label>
                   <Switch
                     id="view-mode"
                     checked={view === "public"}
-                    onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+                    onCheckedChange={handleViewToggle}
                   />
                 </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => setShowSettings(true)}
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
               </div>
-            )}
+            </div>
+          )}
 
-            <Card className="p-6 shadow-sm border-gray-100">
-              <div className="space-y-6">
-                {Object.entries(groupedAccomplishments).map(([dateGroup, items], groupIndex) => (
-                  <div key={dateGroup}>
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="h-px flex-1 bg-gray-200" />
-                      <span className="text-sm font-medium text-gray-500">{dateGroup}</span>
-                      <div className="h-px flex-1 bg-gray-200" />
-                    </div>
-                    {items.map((accomplishment, index) => {
-                      const Icon = getIcon(index);
-                      return (
-                        <div key={accomplishment.id} className="relative">
-                          {index < items.length - 1 && (
-                            <div className="absolute left-[11px] top-[24px] h-full w-[2px] bg-gray-100" />
-                          )}
-                          <div className="flex gap-3">
-                            <div className={cn(
-                              "h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5",
-                              accomplishment.tags?.includes("highlight") ? "bg-blue-50 text-blue-500" : "bg-gray-50 text-gray-400"
-                            )}>
-                              <Icon className="h-3.5 w-3.5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-start justify-between gap-x-2">
-                                <div className="min-w-0">
-                                  <h3 className="font-medium text-sm text-gray-900 leading-5">{accomplishment.title}</h3>
-                                  <p className="text-xs text-gray-500 mt-0.5">
-                                    {format(new Date(accomplishment.date), "MMM d, yyyy")}
-                                  </p>
-                                </div>
-                                {view === "private" && (
-                                  <button 
-                                    onClick={() => handleOpenDetails(accomplishment.id)}
-                                    className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5"
-                                  >
-                                    See Details
-                                    <ChevronRight className="h-3 w-3" />
-                                  </button>
-                                )}
+          {view === "public" && (
+            <div className="flex justify-end mb-4">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
+                  <Eye className="w-4 h-4" />
+                  Public View
+                </Label>
+                <Switch
+                  id="view-mode"
+                  checked={view === "public"}
+                  onCheckedChange={handleViewToggle}
+                />
+              </div>
+            </div>
+          )}
+
+          <ProfileSection />
+
+          <Card className="p-6 shadow-sm border-gray-100">
+            <div className="space-y-6">
+              {Object.entries(groupedAccomplishments).map(([dateGroup, items], groupIndex) => (
+                <div key={dateGroup}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-px flex-1 bg-gray-200" />
+                    <span className="text-sm font-medium text-gray-500">{dateGroup}</span>
+                    <div className="h-px flex-1 bg-gray-200" />
+                  </div>
+                  {items.map((accomplishment, index) => {
+                    const Icon = getIcon(index);
+                    return (
+                      <div key={accomplishment.id} className="relative">
+                        {index < items.length - 1 && (
+                          <div className="absolute left-[11px] top-[24px] h-full w-[2px] bg-gray-100" />
+                        )}
+                        <div className="flex gap-3">
+                          <div className={cn(
+                            "h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5",
+                            accomplishment.tags?.includes("highlight") ? "bg-blue-50 text-blue-500" : "bg-gray-50 text-gray-400"
+                          )}>
+                            <Icon className="h-3.5 w-3.5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-x-2">
+                              <div className="min-w-0">
+                                <h3 className="font-medium text-sm text-gray-900 leading-5">{accomplishment.title}</h3>
+                                <p className="text-xs text-gray-500 mt-0.5">
+                                  {format(new Date(accomplishment.date), "MMM d, yyyy")}
+                                </p>
                               </div>
-                              <p className="mt-1.5 text-xs text-gray-600 leading-relaxed">
-                                {view === "private" ? accomplishment.privateDetails : blurMetrics(accomplishment.privateDetails)}
-                              </p>
-                              {accomplishment.tags && accomplishment.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1 mt-2">
-                                  {accomplishment.tags.map((tag, tagIndex) => (
-                                    <span
-                                      key={tagIndex}
-                                      className={cn(
-                                        "inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium",
-                                        tag === "highlight"
-                                          ? "bg-blue-50 text-blue-600"
-                                          : "bg-gray-50 text-gray-600"
-                                      )}
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))}
-                                </div>
+                              {view === "private" && (
+                                <button 
+                                  onClick={() => handleOpenDetails(accomplishment.id)}
+                                  className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5"
+                                >
+                                  See Details
+                                  <ChevronRight className="h-3 w-3" />
+                                </button>
                               )}
                             </div>
+                            <p className="mt-1.5 text-xs text-gray-600 leading-relaxed">
+                              {view === "private" ? accomplishment.privateDetails : blurMetrics(accomplishment.privateDetails)}
+                            </p>
+                            {accomplishment.tags && accomplishment.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {accomplishment.tags.map((tag, tagIndex) => (
+                                  <span
+                                    key={tagIndex}
+                                    className={cn(
+                                      "inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium",
+                                      tag === "highlight"
+                                        ? "bg-blue-50 text-blue-600"
+                                        : "bg-gray-50 text-gray-600"
+                                    )}
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </main>
-        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </Card>
+        </main>
       </div>
 
       {/* Details Dialog */}
