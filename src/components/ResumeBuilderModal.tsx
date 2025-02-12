@@ -2,6 +2,7 @@
 import { Timeline } from "@/components/Timeline";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { ResumePreview } from "@/components/ResumePreview";
+import { LinkedInPreview } from "@/components/LinkedInPreview";
 import { PerformanceReviewPreview } from "@/components/PerformanceReviewPreview";
 import { OneOnOnePreview } from "@/components/OneOnOnePreview";
 import { X } from "lucide-react";
@@ -17,25 +18,26 @@ interface ResumeBuilderModalProps {
 export const ResumeBuilderModal = ({ onClose, type = 'resume' }: ResumeBuilderModalProps) => {
   const getPreviewComponent = () => {
     switch (type) {
+      case 'linkedin':
+        return <LinkedInPreview />;
       case 'performance-review':
         return <PerformanceReviewPreview />;
       case '1:1':
         return <OneOnOnePreview />;
-      case 'linkedin':
       case 'resume':
       default:
-        return <ResumePreview type={type} />;
+        return <ResumePreview />;
     }
   };
 
   const getModalTitle = () => {
     switch (type) {
+      case 'linkedin':
+        return 'Create LinkedIn Update';
       case 'performance-review':
         return 'Create Performance Review';
       case '1:1':
         return 'Create 1:1 Notes';
-      case 'linkedin':
-        return 'Create LinkedIn Update';
       case 'resume':
       default:
         return 'Create New Resume';
@@ -44,7 +46,6 @@ export const ResumeBuilderModal = ({ onClose, type = 'resume' }: ResumeBuilderMo
 
   return (
     <div className="fixed inset-0 z-50 bg-background">
-      {/* Header */}
       <div className="border-b">
         <div className="flex h-14 items-center justify-between px-4 max-w-7xl mx-auto">
           <div className="font-semibold">
@@ -60,7 +61,6 @@ export const ResumeBuilderModal = ({ onClose, type = 'resume' }: ResumeBuilderMo
         </div>
       </div>
 
-      {/* Content */}
       <div className="h-[calc(100vh-56px)]">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={60} minSize={40}>
