@@ -60,14 +60,14 @@ export const Timeline = () => {
     return groups;
   }, {} as Record<string, typeof accomplishments>);
 
-  const selectTriggerClassName = "bg-[#D3E4FD] border-0 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-colors font-medium";
+  const selectTriggerClassName = "h-8 bg-white border border-[#8E9196] hover:bg-gray-50 hover:border-gray-400 transition-colors text-sm font-medium";
 
   return (
     <div className="h-[calc(100vh-96px)] animate-fade-in">
       <div className="p-4 space-y-2">
         <div className="flex flex-wrap gap-2">
           <Select value={selectedCompany} onValueChange={setSelectedCompany}>
-            <SelectTrigger className={cn("w-auto min-w-32", selectTriggerClassName)}>
+            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
               <SelectValue placeholder="Company" />
             </SelectTrigger>
             <SelectContent>
@@ -81,7 +81,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
+            <SelectTrigger className={cn("w-auto min-w-24", selectTriggerClassName)}>
               <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
@@ -95,7 +95,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
+            <SelectTrigger className={cn("w-auto min-w-24", selectTriggerClassName)}>
               <SelectValue placeholder="Month" />
             </SelectTrigger>
             <SelectContent>
@@ -112,7 +112,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedTag} onValueChange={setSelectedTag}>
-            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
+            <SelectTrigger className={cn("w-auto min-w-24", selectTriggerClassName)}>
               <SelectValue placeholder="Tag" />
             </SelectTrigger>
             <SelectContent>
