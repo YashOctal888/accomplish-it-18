@@ -23,6 +23,7 @@ import { Settings, User, ChevronDown, LogOut } from "lucide-react";
 import Home from "./pages/Home";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
+import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
 
@@ -77,42 +78,76 @@ const ProfileDropdown = () => {
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <nav className="border-b">
-          <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
-            <Link to="/" className="font-bold text-lg">
-              Accomplish it
-            </Link>
-            <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
-              <NavigationMenuList className="space-x-2">
-                <NavigationMenuItem>
-                  <NavLink to="/">
-                    Accomplishments
-                  </NavLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavLink to="/resume-builder">
-                    Artifacts
-                  </NavLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            <ProfileDropdown />
-          </div>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/resume-builder" element={<ResumeBuilder />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const Navigation = ({ isPublicView }: { isPublicView: boolean }) => {
+  if (isPublicView) return null;
+
+  return (
+    <nav className="border-b">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
+        <Link to="/" className="font-bold text-lg">
+          Accomplish it
+        </Link>
+        <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
+          <NavigationMenuList className="space-x-2">
+            <NavigationMenuItem>
+              <NavLink to="/">
+                Accomplishments
+              </NavLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavLink to="/resume-builder">
+                Artifacts
+              </NavLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <ProfileDropdown />
+      </div>
+    </nav>
+  );
+};
+
+const App = () => {
+  const [isPublicView, setIsPublicView] = useState(false);
+
+  // Listen for changes in local storage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const view = localStorage.getItem('view');
+      setIsPublicView(view === 'public');
+    };
+
+    // Initial check
+    handleStorageChange();
+
+    // Listen for changes
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Custom event for same-window updates
+    window.addEventListener('viewChange', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('viewChange', handleStorageChange);
+    };
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Navigation isPublicView={isPublicView} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/resume-builder" element={<ResumeBuilder />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

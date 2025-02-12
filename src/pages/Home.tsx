@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -6,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { View } from "@/types/accomplishment";
@@ -52,7 +51,6 @@ const Home = () => {
     tags: true,
   });
 
-  // Group accomplishments by month and year
   const groupedAccomplishments = accomplishments.reduce((groups, accomplishment) => {
     const date = new Date(accomplishment.date);
     const key = format(date, "MMMM yyyy");
@@ -80,7 +78,6 @@ const Home = () => {
   };
 
   const handleAddAccomplishment = () => {
-    // Basic validation
     if (!newAccomplishment.title || !newAccomplishment.privateDetails || !newAccomplishment.role || !newAccomplishment.company) {
       toast({
         title: "Missing Information",
@@ -91,7 +88,7 @@ const Home = () => {
     }
 
     const accomplishment = {
-      id: Date.now().toString(), // Simple way to generate unique ID
+      id: Date.now().toString(),
       ...newAccomplishment,
       attachments: [],
       tags: newAccomplishment.tags
@@ -117,18 +114,21 @@ const Home = () => {
     });
   };
 
-  // Function to blur metrics in text
   const blurMetrics = (text: string) => {
     return text.replace(/\$?\d+([,.]?\d+)?(\s*%|\s*k|\s*M)?/g, '***');
   };
 
-  // Function to blur company name
   const getCompanyDisplay = (company: string) => {
     if (view === "private") return company;
     return "Company ***";
   };
 
   const selectedItem = accomplishments.find(a => a.id === selectedAccomplishment);
+
+  useEffect(() => {
+    localStorage.setItem('view', view);
+    window.dispatchEvent(new Event('viewChange'));
+  }, [view]);
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -145,17 +145,8 @@ const Home = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-                  {view === "private" ? (
-                    <>
-                      <EyeOff className="w-4 h-4" />
-                      Private View
-                    </>
-                  ) : (
-                    <>
-                      <Eye className="w-4 h-4" />
-                      Public View
-                    </>
-                  )}
+                  <EyeOff className="w-4 h-4" />
+                  Private View
                 </Label>
                 <Switch
                   id="view-mode"
