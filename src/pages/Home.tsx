@@ -1,3 +1,4 @@
+
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus, Globe, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -253,7 +254,7 @@ const Home = () => {
         {view === "public" && <ProfileSidebar />}
         <main className={cn(
           "max-w-2xl mx-auto py-8 px-4",
-          view === "public" && "ml-72" // Adjust margin to account for sidebar width
+          view === "public" && "ml-72"
         )}>
           {view === "private" && (
             <div className="flex justify-between mb-4 items-center">
