@@ -1,21 +1,30 @@
 
-import { Timeline } from "@/components/Timeline";
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
-import { ResumePreview } from "@/components/ResumePreview";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import { useState } from "react";
+import { ResumeBuilderModal } from "@/components/ResumeBuilderModal";
 
 const ResumeBuilder = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <main className="h-screen pt-8">
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={60} minSize={40}>
-            <Timeline />
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={40} minSize={30}>
-            <ResumePreview />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+      <main className="h-[calc(100vh-56px)] flex items-center justify-center">
+        {!showModal ? (
+          <div className="text-center">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              onClick={() => setShowModal(true)}
+              className="gap-2"
+            >
+              <PlusCircle className="w-5 h-5" />
+              Add a new resume
+            </Button>
+          </div>
+        ) : (
+          <ResumeBuilderModal onClose={() => setShowModal(false)} />
+        )}
       </main>
     </div>
   );
