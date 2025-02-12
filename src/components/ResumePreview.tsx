@@ -1,9 +1,11 @@
+
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { format } from "date-fns";
 import { FileText, Maximize2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { toast } from "./ui/use-toast";
+import { Separator } from "./ui/separator";
 
 export const ResumePreview = () => {
   const { getSelectedAccomplishments } = useAccomplishmentStore();
@@ -34,49 +36,86 @@ export const ResumePreview = () => {
   }
 
   const content = (
-    <div className="space-y-6">
-      <div className="border-b pb-6">
-        <h1 className="text-2xl font-bold text-gray-900">John Doe</h1>
-        <p className="text-gray-600 mt-2">Professional Software Engineer</p>
-        <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
-          <span>United States</span>
-          <span>•</span>
-          <span>john.doe@example.com</span>
+    <div className="max-w-3xl mx-auto space-y-12">
+      {/* Header Section */}
+      <div className="space-y-4">
+        <h1 className="text-[42px] font-bold text-gray-900 leading-tight">John Doe</h1>
+        <div className="flex items-center gap-2 text-lg text-gray-600">
+          <span>Digital Product Designer</span>
+          <span className="text-gray-300">|</span>
+          <span>johndoe.design</span>
         </div>
+        <p className="text-gray-500 text-lg leading-relaxed">
+          I build products that delight customers through a blend of frontend engineering and design experiences. 
+          My speciality lies in consumer-facing fintech products.
+        </p>
       </div>
 
-      <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Professional Experience</h2>
-        <div className="space-y-6">
-          {selectedAccomplishments.map((accomplishment) => (
-            <div key={accomplishment.id} className="space-y-2">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-medium text-gray-900">{accomplishment.role}</h3>
-                  <p className="text-gray-600">{accomplishment.company}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-12">
+        <div className="space-y-12">
+          {/* Experience Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8">Experience</h2>
+            <div className="space-y-10">
+              {selectedAccomplishments.map((accomplishment) => (
+                <div key={accomplishment.id} className="space-y-2">
+                  <h3 className="text-xl font-semibold text-gray-900">{accomplishment.company}</h3>
+                  <div className="flex items-baseline gap-2 text-gray-500">
+                    <span className="font-medium">{accomplishment.role}</span>
+                    <span>|</span>
+                    <span>{format(new Date(accomplishment.date), "yyyy")} - Present</span>
+                  </div>
+                  <ul className="mt-4 space-y-2">
+                    <li className="text-gray-600">• {accomplishment.title}</li>
+                    {accomplishment.description && (
+                      <li className="text-gray-600">• {accomplishment.description}</li>
+                    )}
+                  </ul>
                 </div>
-                <p className="text-sm text-gray-500">{format(new Date(accomplishment.date), "MMM yyyy")}</p>
-              </div>
-              <p className="text-sm text-gray-700">{accomplishment.title}</p>
-              {accomplishment.description && (
-                <p className="text-sm text-gray-600">{accomplishment.description}</p>
-              )}
+              ))}
             </div>
-          ))}
+          </section>
         </div>
-      </div>
 
-      <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Skills</h2>
-        <div className="flex flex-wrap gap-2">
-          {Array.from(new Set(selectedAccomplishments.flatMap(acc => acc.tags || []))).map((tag, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="space-y-12">
+          {/* Education Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8">Education</h2>
+            <div className="space-y-2">
+              <h3 className="text-xl font-semibold text-gray-900">Purdue University</h3>
+              <p className="text-gray-500">Computer Science - Software Design</p>
+              <p className="text-gray-500">Graphic Communications</p>
+              <p className="text-gray-500">2009 - 2013</p>
+            </div>
+          </section>
+
+          {/* Achievements Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8">Achievements</h2>
+            <div className="space-y-2">
+              {selectedAccomplishments
+                .filter(acc => acc.tags?.includes('highlight'))
+                .map((accomplishment) => (
+                  <p key={accomplishment.id} className="text-gray-600">{accomplishment.title}</p>
+                ))}
+            </div>
+          </section>
+
+          {/* Skills Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8">Skills</h2>
+            <div className="flex flex-wrap gap-2">
+              {Array.from(new Set(selectedAccomplishments.flatMap(acc => acc.tags || []))).map((tag, index) => (
+                <span
+                  key={index}
+                  className="text-gray-600"
+                >
+                  {tag}
+                  {index < selectedAccomplishments.flatMap(acc => acc.tags || []).length - 1 && ", "}
+                </span>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -85,8 +124,8 @@ export const ResumePreview = () => {
   if (isFullScreen) {
     return (
       <div className="fixed inset-0 bg-white z-50 overflow-auto">
-        <div className="max-w-4xl mx-auto p-8">
-          <div className="flex justify-end mb-4 gap-2">
+        <div className="max-w-5xl mx-auto p-12">
+          <div className="flex justify-end mb-8 gap-2">
             <Button 
               variant="outline" 
               size="sm"
@@ -114,7 +153,7 @@ export const ResumePreview = () => {
 
   return (
     <div className="p-6 h-full overflow-auto bg-gray-50">
-      <div className="flex justify-end mb-4 gap-2">
+      <div className="flex justify-end mb-8 gap-2">
         <Button 
           variant="outline" 
           size="sm"
