@@ -1,16 +1,20 @@
 
 import { format } from "date-fns";
-import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil } from "lucide-react";
+import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { View } from "@/types/accomplishment";
 
 const Home = () => {
   const accomplishments = useAccomplishmentStore((state) => state.accomplishments);
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | null>(null);
+  const [view, setView] = useState<View>("private");
 
   // Group accomplishments by month and year
   const groupedAccomplishments = accomplishments.reduce((groups, accomplishment) => {
@@ -30,17 +34,57 @@ const Home = () => {
   };
 
   const handleOpenDetails = (id: string) => {
-    setSelectedAccomplishment(id);
+    if (view === "private") {
+      setSelectedAccomplishment(id);
+    }
   };
 
   const handleCloseDetails = () => {
     setSelectedAccomplishment(null);
   };
 
+  // Function to blur metrics in text
+  const blurMetrics = (text: string) => {
+    return text.replace(/\$?\d+([,.]?\d+)?(\s*%|\s*k|\s*M)?/g, '***');
+  };
+
+  // Function to blur company name
+  const getCompanyDisplay = (company: string) => {
+    if (view === "private") return company;
+    return "Company ***";
+  };
+
   const selectedItem = accomplishments.find(a => a.id === selectedAccomplishment);
 
   return (
     <div className="min-h-screen bg-gray-50/50">
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto py-4 px-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-900">Accomplish It</h1>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
+                {view === "private" ? (
+                  <>
+                    <EyeOff className="w-4 h-4" />
+                    Private View
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-4 h-4" />
+                    Public View
+                  </>
+                )}
+              </Label>
+              <Switch
+                id="view-mode"
+                checked={view === "public"}
+                onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+              />
+            </div>
+          </div>
+        </div>
+      </header>
       <main className="max-w-2xl mx-auto py-8 px-4">
         <Card className="p-6 shadow-sm border-gray-100">
           <div className="space-y-6">
@@ -73,16 +117,18 @@ const Home = () => {
                                 {format(new Date(accomplishment.date), "MMM d, yyyy")}
                               </p>
                             </div>
-                            <button 
-                              onClick={() => handleOpenDetails(accomplishment.id)}
-                              className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5"
-                            >
-                              See Details
-                              <ChevronRight className="h-3 w-3" />
-                            </button>
+                            {view === "private" && (
+                              <button 
+                                onClick={() => handleOpenDetails(accomplishment.id)}
+                                className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5"
+                              >
+                                See Details
+                                <ChevronRight className="h-3 w-3" />
+                              </button>
+                            )}
                           </div>
                           <p className="mt-1.5 text-xs text-gray-600 leading-relaxed">
-                            {accomplishment.privateDetails}
+                            {view === "private" ? accomplishment.privateDetails : blurMetrics(accomplishment.privateDetails)}
                           </p>
                           {accomplishment.tags && accomplishment.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-2">
@@ -139,15 +185,15 @@ const Home = () => {
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
                   <Building2 className="w-4 h-4 mr-2" />
-                  {selectedItem.company}
+                  {getCompanyDisplay(selectedItem.company)}
                 </div>
               </div>
 
               <div className="text-sm text-gray-600">
-                <p>{selectedItem.privateDetails}</p>
+                <p>{view === "private" ? selectedItem.privateDetails : blurMetrics(selectedItem.privateDetails)}</p>
               </div>
 
-              {selectedItem.attachments && selectedItem.attachments.length > 0 && (
+              {selectedItem.attachments && selectedItem.attachments.length > 0 && view === "private" && (
                 <div className="space-y-2">
                   {selectedItem.attachments.map((file) => (
                     <div
