@@ -211,7 +211,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
                 <div className="space-y-2">
                   <Download className="w-8 h-8 text-gray-400" />
                   <h3 className="font-semibold">Basic</h3>
-                  <p className="text-2xl font-bold">Free</p>
+                  <p className="text-2xl font-bold">Free<span className="text-xs font-normal text-gray-500 ml-1">*watermarked</span></p>
                   <div className="text-sm text-gray-500 space-y-2">
                     <p className="font-medium text-gray-700">Format options:</p>
                     <ul className="space-y-1.5">
