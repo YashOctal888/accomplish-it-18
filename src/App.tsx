@@ -85,13 +85,11 @@ const App = () => (
       <BrowserRouter>
         <nav className="border-b">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
-            <NavigationMenu>
+            <Link to="/" className="font-bold text-lg">
+              Accomplish it
+            </Link>
+            <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
               <NavigationMenuList className="space-x-2">
-                <NavigationMenuItem>
-                  <Link to="/" className="font-bold text-lg">
-                    Accomplish it
-                  </Link>
-                </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavLink to="/">
                     Accomplishments
