@@ -1,7 +1,7 @@
 
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { format } from "date-fns";
+import { format, differenceInYears } from "date-fns";
 import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText, Check, Download, Sparkles, Infinity, MessageSquare, MoreHorizontal, Bell, ExternalLink, Shield } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useMemo } from "react";
@@ -55,6 +55,18 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
     }
 
     return `${latestAccomplishment.role} with expertise in ${selectedAccomplishments[0].tags?.slice(0, 2).join(" and ") || "various domains"}`;
+  };
+
+  const handleExport = () => {
+    if (selectedAccomplishments.length === 0) {
+      toast({
+        title: "No accomplishments selected",
+        description: "Please select at least one accomplishment to export.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setShowExportModal(true);
   };
 
   const ProfileHeader = () => (
@@ -121,6 +133,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
               // Get date range for the role
               const latestDate = new Date(latestAccomplishment.date);
               const earliestDate = new Date(Math.min(...accomplishments.map(a => new Date(a.date).getTime())));
+              const durationYears = differenceInYears(latestDate, earliestDate);
               
               return (
                 <div key={company} className="flex gap-4">
@@ -138,7 +151,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
                         <span>-</span>
                         <span>{format(latestDate, "MMM yyyy")}</span>
                         <span className="mx-1">·</span>
-                        <span>{format(latestDate, "yyyy") - format(earliestDate, "yyyy")} yrs</span>
+                        <span>{durationYears} yrs</span>
                       </div>
                       <p className="text-sm text-gray-500 mt-0.5">United States</p>
                     </div>
