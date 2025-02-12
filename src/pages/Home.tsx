@@ -1,19 +1,40 @@
 import { format } from "date-fns";
-import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff } from "lucide-react";
+import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { View } from "@/types/accomplishment";
+import { Checkbox } from "@/components/ui/checkbox";
+
+interface VisibilitySettings {
+  title: boolean;
+  date: boolean;
+  company: boolean;
+  role: boolean;
+  details: boolean;
+  attachments: boolean;
+  tags: boolean;
+}
 
 const Home = () => {
   const accomplishments = useAccomplishmentStore((state) => state.accomplishments);
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | null>(null);
   const [view, setView] = useState<View>("private");
+  const [showSettings, setShowSettings] = useState(false);
+  const [visibilitySettings, setVisibilitySettings] = useState<VisibilitySettings>({
+    title: true,
+    date: true,
+    company: true,
+    role: true,
+    details: true,
+    attachments: false,
+    tags: true,
+  });
 
   // Group accomplishments by month and year
   const groupedAccomplishments = accomplishments.reduce((groups, accomplishment) => {
@@ -58,7 +79,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       <main className="max-w-2xl mx-auto py-8 px-4">
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-4 items-center gap-4">
           <div className="flex items-center gap-2">
             <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
               {view === "private" ? (
@@ -79,6 +100,14 @@ const Home = () => {
               onCheckedChange={(checked) => setView(checked ? "public" : "private")}
             />
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            onClick={() => setShowSettings(true)}
+          >
+            <Settings className="h-4 w-4" />
+          </Button>
         </div>
         <Card className="p-6 shadow-sm border-gray-100">
           <div className="space-y-6">
@@ -152,6 +181,7 @@ const Home = () => {
         </Card>
       </main>
 
+      {/* Details Dialog */}
       <Dialog open={!!selectedAccomplishment} onOpenChange={(open) => !open && handleCloseDetails()}>
         <DialogContent className="max-w-lg">
           {selectedItem && (
@@ -241,6 +271,37 @@ const Home = () => {
               )}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Settings Dialog */}
+      <Dialog open={showSettings} onOpenChange={setShowSettings}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Visibility Settings</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="text-sm text-gray-600 mb-4">
+              Choose which components to show in the public view:
+            </div>
+            {Object.entries(visibilitySettings).map(([key, value]) => (
+              <div key={key} className="flex items-center space-x-2">
+                <Checkbox
+                  id={key}
+                  checked={value}
+                  onCheckedChange={(checked) => 
+                    setVisibilitySettings(prev => ({
+                      ...prev,
+                      [key]: checked === true
+                    }))
+                  }
+                />
+                <Label htmlFor={key} className="text-sm font-medium capitalize">
+                  {key}
+                </Label>
+              </div>
+            ))}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
