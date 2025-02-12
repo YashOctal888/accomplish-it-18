@@ -1,6 +1,5 @@
-
 import { create } from "zustand";
-import { Accomplishment, View } from "../types/accomplishment";
+import { Accomplishment } from "../types/accomplishment";
 
 export const sampleAccomplishments: Accomplishment[] = [
   {
@@ -223,8 +222,6 @@ export const sampleAccomplishments: Accomplishment[] = [
 
 interface AccomplishmentStore {
   accomplishments: Accomplishment[];
-  view: View;
-  setView: (view: View) => void;
   toggleSelected: (id: string) => void;
   getSelectedAccomplishments: () => Accomplishment[];
   clearSelection: () => void;
@@ -232,8 +229,6 @@ interface AccomplishmentStore {
 
 export const useAccomplishmentStore = create<AccomplishmentStore>((set, get) => ({
   accomplishments: sampleAccomplishments,
-  view: "private",
-  setView: (view) => set({ view }),
   toggleSelected: (id) =>
     set((state) => ({
       accomplishments: state.accomplishments.map((acc) =>
