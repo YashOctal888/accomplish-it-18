@@ -27,22 +27,124 @@ export const ResumePreview = () => {
 
   const ExportModal = () => (
     <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
           <DialogTitle>Export Resume</DialogTitle>
           <DialogDescription>
-            Your resume is ready to be exported. You can download it or copy the content.
+            Choose how you'd like to export your resume. Each tier includes different features and formats.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4">
-          <div className="rounded-lg border bg-gray-50 p-4">
-            <h3 className="font-medium text-gray-900 mb-2">Experience</h3>
-            {selectedAccomplishments.map((accomplishment) => (
-              <div key={accomplishment.id} className="mb-2">
-                <p className="text-sm text-gray-700">{accomplishment.role} at {accomplishment.company}</p>
-                <p className="text-sm text-gray-600">{accomplishment.title}</p>
+        <div className="grid gap-6 py-4">
+          <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Basic Tier */}
+              <div className="rounded-lg border bg-card p-6 space-y-4">
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Basic</h3>
+                  <p className="text-sm text-muted-foreground">Essential resume export features</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold">Free</div>
+                  <p className="text-sm text-muted-foreground">No credit card required</p>
+                </div>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    PDF Export
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Basic Template
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    1 Download per day
+                  </li>
+                </ul>
+                <Button className="w-full" variant="outline">
+                  Download Free
+                </Button>
               </div>
-            ))}
+
+              {/* Premium Tier */}
+              <div className="rounded-lg border bg-blue-50/50 border-blue-200 p-6 space-y-4 relative overflow-hidden">
+                <div className="absolute top-5 right-5">
+                  <div className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
+                    Popular
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Premium</h3>
+                  <p className="text-sm text-muted-foreground">Professional features</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold">$5</div>
+                  <p className="text-sm text-muted-foreground">per export</p>
+                </div>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    All Basic features
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Multiple formats (PDF, DOCX)
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Custom formatting
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    3 Premium templates
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    ATS-optimized
+                  </li>
+                </ul>
+                <Button className="w-full">
+                  Buy Premium Export
+                </Button>
+              </div>
+
+              {/* Subscription Tier */}
+              <div className="rounded-lg border bg-card p-6 space-y-4">
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Subscription</h3>
+                  <p className="text-sm text-muted-foreground">Unlimited access</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold">$29</div>
+                  <p className="text-sm text-muted-foreground">per month</p>
+                </div>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    All Premium features
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Unlimited exports
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    10+ Premium templates
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Priority support
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">✓</span>
+                    Analytics & tracking
+                  </li>
+                </ul>
+                <Button className="w-full" variant="outline">
+                  Start Subscription
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
