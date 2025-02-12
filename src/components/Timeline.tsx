@@ -2,7 +2,7 @@
 import { useAccomplishmentStore } from "../store/accomplishments";
 import { AccomplishmentCard } from "./AccomplishmentCard";
 import { Button } from "./ui/button";
-import { Share2, Linkedin, FileText } from "lucide-react";
+import { Share2, Linkedin, FileText, Plus } from "lucide-react";
 import { Switch } from "./ui/switch";
 import { toast } from "./ui/use-toast";
 import { ScrollArea } from "./ui/scroll-area";
@@ -45,9 +45,24 @@ export const Timeline = () => {
     clearSelection();
   };
 
+  const handleAddAccomplishment = () => {
+    // In a real app, this would open a form to add a new accomplishment
+    toast({
+      title: "Coming soon!",
+      description: "The ability to add accomplishments will be available soon.",
+    });
+  };
+
   return (
     <div className="h-[calc(100vh-96px)] animate-fade-in">
-      <div className="flex items-center justify-between mb-8 px-4">
+      <div className="flex items-center justify-between mb-4 px-4">
+        <Button
+          onClick={handleAddAccomplishment}
+          className="bg-accent hover:bg-accent/90"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add Accomplishment
+        </Button>
         <div className="flex items-center space-x-2">
           <span className="text-sm font-medium">Public</span>
           <Switch
@@ -56,24 +71,25 @@ export const Timeline = () => {
           />
           <span className="text-sm font-medium">Private</span>
         </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleShare("private")}
-          >
-            <Share2 className="w-4 h-4 mr-2" />
-            Private Link
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleShare("public")}
-          >
-            <Share2 className="w-4 h-4 mr-2" />
-            Public Link
-          </Button>
-        </div>
+      </div>
+
+      <div className="flex items-center justify-end space-x-2 mb-4 px-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleShare("private")}
+        >
+          <Share2 className="w-4 h-4 mr-2" />
+          Private Link
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleShare("public")}
+        >
+          <Share2 className="w-4 h-4 mr-2" />
+          Public Link
+        </Button>
       </div>
 
       {view === "private" && (
