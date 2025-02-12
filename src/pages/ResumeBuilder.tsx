@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ResumeBuilderModal } from "@/components/ResumeBuilderModal";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 const ResumeBuilder = () => {
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +22,8 @@ const ResumeBuilder = () => {
       title: "Weekly 1:1 with Manager",
       type: "1:1",
       date: "2024-02-10",
-      icon: MessagesSquare
+      icon: MessagesSquare,
+      tags: ["Auto-updated", "Shared"]
     },
     {
       title: "Software Engineer Resume",
@@ -100,8 +102,17 @@ const ResumeBuilder = () => {
                       <Icon className="w-5 h-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-medium text-sm text-gray-900">{artifact.title}</h3>
-                      <p className="text-xs text-gray-500">{artifact.type}</p>
+                      <div>
+                        <h3 className="font-medium text-sm text-gray-900 mb-1">{artifact.title}</h3>
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs text-gray-500">{artifact.type}</p>
+                          {artifact.tags?.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="text-[10px] h-4">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                     <div className="text-xs text-gray-500">
                       {new Date(artifact.date).toLocaleDateString()}
