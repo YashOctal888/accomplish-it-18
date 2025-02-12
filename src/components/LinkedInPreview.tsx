@@ -1,4 +1,3 @@
-
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { format, differenceInYears } from "date-fns";
 import { Building2, MessageSquare, MoreHorizontal, Shield, FileText, Maximize2 } from "lucide-react";
@@ -19,7 +18,6 @@ export const LinkedInPreview = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
 
-  // Group accomplishments by company
   const groupedAccomplishments = useMemo(() => {
     const groups = selectedAccomplishments.reduce((acc, accomplishment) => {
       if (!acc[accomplishment.company]) {
@@ -192,6 +190,29 @@ export const LinkedInPreview = () => {
     </div>
   );
 
+  const ExportModal = () => (
+    <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Export LinkedIn Update</DialogTitle>
+          <DialogDescription>
+            Your LinkedIn update is ready to be exported. You can copy the content and paste it directly into LinkedIn.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="rounded-lg border bg-gray-50 p-4">
+            <p className="text-sm text-gray-700">{getProfileHeadline()}</p>
+          </div>
+          {selectedAccomplishments.map((accomplishment) => (
+            <div key={accomplishment.id} className="rounded-lg border bg-gray-50 p-4">
+              <p className="text-sm text-gray-700">{accomplishment.title}</p>
+            </div>
+          ))}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
   if (selectedAccomplishments.length === 0) {
     return (
       <div className="p-6 h-full flex items-center justify-center text-center">
@@ -229,6 +250,7 @@ export const LinkedInPreview = () => {
           </div>
           <ProfileHeader />
           <ResumeContent />
+          <ExportModal />
         </div>
       </div>
     );
@@ -258,6 +280,7 @@ export const LinkedInPreview = () => {
       </div>
       <ProfileHeader />
       <ResumeContent />
+      <ExportModal />
     </div>
   );
 };

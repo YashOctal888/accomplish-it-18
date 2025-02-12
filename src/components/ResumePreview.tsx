@@ -1,4 +1,3 @@
-
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { format } from "date-fns";
 import { FileText, Maximize2 } from "lucide-react";
@@ -6,11 +5,13 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { toast } from "./ui/use-toast";
 import { Separator } from "./ui/separator";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 
 export const ResumePreview = () => {
   const { getSelectedAccomplishments } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
 
   const handleExport = () => {
     if (selectedAccomplishments.length === 0) {
@@ -23,6 +24,30 @@ export const ResumePreview = () => {
     }
     // Add resume-specific export logic here
   };
+
+  const ExportModal = () => (
+    <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Export Resume</DialogTitle>
+          <DialogDescription>
+            Your resume is ready to be exported. You can download it or copy the content.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="rounded-lg border bg-gray-50 p-4">
+            <h3 className="font-medium text-gray-900 mb-2">Experience</h3>
+            {selectedAccomplishments.map((accomplishment) => (
+              <div key={accomplishment.id} className="mb-2">
+                <p className="text-sm text-gray-700">{accomplishment.role} at {accomplishment.company}</p>
+                <p className="text-sm text-gray-600">{accomplishment.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   if (selectedAccomplishments.length === 0) {
     return (
@@ -37,7 +62,6 @@ export const ResumePreview = () => {
 
   const content = (
     <div className="max-w-3xl mx-auto space-y-12">
-      {/* Header Section */}
       <div className="space-y-4">
         <h1 className="text-[42px] font-bold text-gray-900 leading-tight">John Doe</h1>
         <div className="flex items-center gap-2 text-lg text-gray-600">
@@ -53,7 +77,6 @@ export const ResumePreview = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-12">
         <div className="space-y-12">
-          {/* Experience Section */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-8">Experience</h2>
             <div className="space-y-10">
@@ -78,7 +101,6 @@ export const ResumePreview = () => {
         </div>
 
         <div className="space-y-12">
-          {/* Education Section */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-8">Education</h2>
             <div className="space-y-2">
@@ -89,7 +111,6 @@ export const ResumePreview = () => {
             </div>
           </section>
 
-          {/* Achievements Section */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-8">Achievements</h2>
             <div className="space-y-2">
@@ -101,7 +122,6 @@ export const ResumePreview = () => {
             </div>
           </section>
 
-          {/* Skills Section */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mb-8">Skills</h2>
             <div className="flex flex-wrap gap-2">
@@ -146,6 +166,7 @@ export const ResumePreview = () => {
             </Button>
           </div>
           {content}
+          <ExportModal />
         </div>
       </div>
     );
@@ -174,6 +195,7 @@ export const ResumePreview = () => {
         </Button>
       </div>
       {content}
+      <ExportModal />
     </div>
   );
 };
