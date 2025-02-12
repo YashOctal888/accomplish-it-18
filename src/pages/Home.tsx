@@ -60,32 +60,32 @@ const Home = () => {
     <div className="min-h-screen bg-gray-50/50">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto py-4 px-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold text-gray-900">Accomplish It</h1>
-            <div className="flex items-center gap-2">
-              <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-                {view === "private" ? (
-                  <>
-                    <EyeOff className="w-4 h-4" />
-                    Private View
-                  </>
-                ) : (
-                  <>
-                    <Eye className="w-4 h-4" />
-                    Public View
-                  </>
-                )}
-              </Label>
-              <Switch
-                id="view-mode"
-                checked={view === "public"}
-                onCheckedChange={(checked) => setView(checked ? "public" : "private")}
-              />
-            </div>
-          </div>
+          <h1 className="text-2xl font-semibold text-gray-900">Accomplish It</h1>
         </div>
       </header>
       <main className="max-w-2xl mx-auto py-8 px-4">
+        <div className="flex justify-end mb-4">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
+              {view === "private" ? (
+                <>
+                  <EyeOff className="w-4 h-4" />
+                  Private View
+                </>
+              ) : (
+                <>
+                  <Eye className="w-4 h-4" />
+                  Public View
+                </>
+              )}
+            </Label>
+            <Switch
+              id="view-mode"
+              checked={view === "public"}
+              onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+            />
+          </div>
+        </div>
         <Card className="p-6 shadow-sm border-gray-100">
           <div className="space-y-6">
             {Object.entries(groupedAccomplishments).map(([dateGroup, items], groupIndex) => (
