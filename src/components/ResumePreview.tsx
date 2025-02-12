@@ -1,7 +1,8 @@
+
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText, Check, Download, Sparkles, Infinity } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 
 export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin' }) => {
-  const { getSelectedAccomplishments, clearSelection } = useAccomplishmentStore();
+  const { getSelectedAccomplishments } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -196,40 +197,122 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
       </div>
 
       <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
-            <DialogTitle>Export Options</DialogTitle>
+            <DialogTitle>Choose Your Export Plan</DialogTitle>
             <DialogDescription>
-              Choose your export format:
+              Select the plan that best fits your needs
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 py-4">
-            <div className="space-y-4">
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 className="font-semibold text-lg mb-2">Basic Export</h3>
-                <p className="text-gray-600 mb-4">Standard format with watermark</p>
-                <Button
-                  variant="secondary"
+            <div className="grid gap-6 sm:grid-cols-3">
+              {/* Basic Plan */}
+              <div className="relative rounded-lg border p-4 hover:shadow-sm transition-shadow">
+                <div className="space-y-2">
+                  <Download className="w-8 h-8 text-gray-400" />
+                  <h3 className="font-semibold">Basic</h3>
+                  <p className="text-2xl font-bold">Free</p>
+                  <div className="text-sm text-gray-500 space-y-2">
+                    <p className="font-medium text-gray-700">Format options:</p>
+                    <ul className="space-y-1.5">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-gray-400" />
+                        <span>PDF</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-gray-400" />
+                        <span>PNG</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <Button 
+                  className="w-full mt-4" 
+                  variant="outline"
                   onClick={() => {
-                    console.log('Exporting basic version...');
+                    console.log('Basic export selected...');
                     setShowExportModal(false);
                   }}
                 >
-                  Export Basic Version
+                  Export Now
                 </Button>
               </div>
-              
-              <div className="bg-primary/5 p-6 rounded-lg border border-primary/20">
-                <h3 className="font-semibold text-lg mb-2">Premium Export</h3>
-                <p className="text-gray-600 mb-4">High-quality format with no watermark</p>
-                <Button
-                  variant="default"
+
+              {/* Premium Plan */}
+              <div className="relative rounded-lg border p-4 bg-primary/5 border-primary/20 hover:shadow-sm transition-shadow">
+                <div className="space-y-2">
+                  <Sparkles className="w-8 h-8 text-primary" />
+                  <h3 className="font-semibold">Premium</h3>
+                  <p className="text-2xl font-bold">$3.99<span className="text-sm font-normal text-gray-500">/export</span></p>
+                  <div className="text-sm text-gray-500 space-y-2">
+                    <p className="font-medium text-gray-700">Format options:</p>
+                    <ul className="space-y-1.5">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-primary" />
+                        <span>DOC, PDF, PNG</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-primary" />
+                        <span>TXT, HTML, RTF</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-primary" />
+                        <span>ATS Review</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-primary" />
+                        <span>AI Optimizations</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <Button 
+                  className="w-full mt-4"
                   onClick={() => {
                     console.log('Premium export selected...');
                     setShowExportModal(false);
                   }}
                 >
-                  Get Premium Version
+                  Get Premium Export
+                </Button>
+              </div>
+
+              {/* Subscription Plan */}
+              <div className="relative rounded-lg border p-4 bg-accent/5 border-accent/20 hover:shadow-sm transition-shadow">
+                <div className="absolute -top-2 right-4">
+                  <span className="px-2 py-1 bg-accent text-white text-xs rounded-full">Best Value</span>
+                </div>
+                <div className="space-y-2">
+                  <Infinity className="w-8 h-8 text-accent" />
+                  <h3 className="font-semibold">Unlimited</h3>
+                  <p className="text-2xl font-bold">$8.99<span className="text-sm font-normal text-gray-500">/month</span></p>
+                  <p className="text-xs text-gray-500">Billed annually</p>
+                  <div className="text-sm text-gray-500 space-y-2">
+                    <p className="font-medium text-gray-700">Everything in Premium, plus:</p>
+                    <ul className="space-y-1.5">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-accent" />
+                        <span>Unlimited Exports</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-accent" />
+                        <span>AI Updates</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-accent" />
+                        <span>24/7 Support</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <Button 
+                  className="w-full mt-4 bg-accent hover:bg-accent/90"
+                  onClick={() => {
+                    console.log('Subscription selected...');
+                    setShowExportModal(false);
+                  }}
+                >
+                  Start Subscription
                 </Button>
               </div>
             </div>
