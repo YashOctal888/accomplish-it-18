@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus } from "lucide-react";
+import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus, Globe, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useAccomplishmentStore } from "@/store/accomplishments";
@@ -13,6 +13,21 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+interface ProfileSettings {
+  name: string;
+  avatarUrl: string;
+  bio: string;
+  website: string;
+  twitter: string;
+  linkedin: string;
+  github: string;
+  email: string;
+  phone: string;
+  location: string;
+}
 
 interface VisibilitySettings {
   title: boolean;
@@ -32,6 +47,19 @@ const Home = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const { toast } = useToast();
   
+  const [profileSettings, setProfileSettings] = useState<ProfileSettings>({
+    name: "",
+    avatarUrl: "",
+    bio: "",
+    website: "",
+    twitter: "",
+    linkedin: "",
+    github: "",
+    email: "",
+    phone: "",
+    location: ""
+  });
+
   const [newAccomplishment, setNewAccomplishment] = useState({
     title: "",
     date: format(new Date(), "yyyy-MM-dd"),
@@ -126,13 +154,106 @@ const Home = () => {
   const selectedItem = accomplishments.find(a => a.id === selectedAccomplishment);
 
   useEffect(() => {
+    const savedProfile = localStorage.getItem('profileSettings');
+    if (savedProfile) {
+      setProfileSettings(JSON.parse(savedProfile));
+    }
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('view', view);
     window.dispatchEvent(new Event('viewChange'));
   }, [view]);
 
+  const handleSaveProfile = () => {
+    localStorage.setItem('profileSettings', JSON.stringify(profileSettings));
+    setShowSettings(false);
+    toast({
+      title: "Success",
+      description: "Profile settings saved successfully!"
+    });
+  };
+
+  const ProfileSidebar = () => {
+    if (view !== "public") return null;
+
+    return (
+      <div className="fixed left-8 top-8 w-64 space-y-6">
+        <div className="flex flex-col items-center text-center space-y-4">
+          <Avatar className="w-32 h-32">
+            <AvatarImage src={profileSettings.avatarUrl} alt={profileSettings.name} />
+            <AvatarFallback>{profileSettings.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <div>
+            <h2 className="font-semibold text-xl">{profileSettings.name}</h2>
+            <p className="text-sm text-gray-600 mt-1">{profileSettings.bio}</p>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          {profileSettings.website && (
+            <a href={profileSettings.website} target="_blank" rel="noopener noreferrer" 
+               className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+              <Globe className="h-4 w-4" />
+              Website
+            </a>
+          )}
+          {profileSettings.twitter && (
+            <a href={profileSettings.twitter} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+              <Twitter className="h-4 w-4" />
+              Twitter
+            </a>
+          )}
+          {profileSettings.linkedin && (
+            <a href={profileSettings.linkedin} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </a>
+          )}
+          {profileSettings.github && (
+            <a href={profileSettings.github} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+              <Github className="h-4 w-4" />
+              GitHub
+            </a>
+          )}
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          {profileSettings.email && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Mail className="h-4 w-4" />
+              {profileSettings.email}
+            </div>
+          )}
+          {profileSettings.phone && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Phone className="h-4 w-4" />
+              {profileSettings.phone}
+            </div>
+          )}
+          {profileSettings.location && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <MapPin className="h-4 w-4" />
+              {profileSettings.location}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <main className="max-w-2xl mx-auto py-8 px-4">
+      <ProfileSidebar />
+      <main className={cn(
+        "max-w-2xl mx-auto py-8 px-4",
+        view === "public" && "ml-80" // Add margin when sidebar is visible
+      )}>
         {view === "private" && (
           <div className="flex justify-between mb-4 items-center">
             <Button
@@ -166,7 +287,6 @@ const Home = () => {
           </div>
         )}
 
-        {/* Always show the view toggle even in public view */}
         {view === "public" && (
           <div className="flex justify-end mb-4">
             <div className="flex items-center gap-2">
@@ -350,31 +470,151 @@ const Home = () => {
 
       {/* Settings Dialog */}
       <Dialog open={showSettings} onOpenChange={setShowSettings}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Visibility Settings</DialogTitle>
+            <DialogTitle>Settings</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="text-sm text-gray-600 mb-4">
-              Choose which components to show in the public view:
-            </div>
-            {Object.entries(visibilitySettings).map(([key, value]) => (
-              <div key={key} className="flex items-center space-x-2">
-                <Checkbox
-                  id={key}
-                  checked={value}
-                  onCheckedChange={(checked) => 
-                    setVisibilitySettings(prev => ({
-                      ...prev,
-                      [key]: checked === true
-                    }))
-                  }
-                />
-                <Label htmlFor={key} className="text-sm font-medium capitalize">
-                  {key}
-                </Label>
+          <div className="grid gap-6 py-4">
+            <div className="space-y-4">
+              <h3 className="font-medium text-sm">Profile Information</h3>
+              <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      value={profileSettings.name}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, name: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="avatarUrl">Profile Picture URL</Label>
+                    <Input
+                      id="avatarUrl"
+                      value={profileSettings.avatarUrl}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, avatarUrl: e.target.value }))}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={profileSettings.bio}
+                    onChange={(e) => setProfileSettings(prev => ({ ...prev, bio: e.target.value }))}
+                  />
+                </div>
               </div>
-            ))}
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-sm">Social Links</h3>
+              <div className="grid gap-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="website">Website</Label>
+                    <Input
+                      id="website"
+                      value={profileSettings.website}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, website: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="twitter">Twitter</Label>
+                    <Input
+                      id="twitter"
+                      value={profileSettings.twitter}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, twitter: e.target.value }))}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="linkedin">LinkedIn</Label>
+                    <Input
+                      id="linkedin"
+                      value={profileSettings.linkedin}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, linkedin: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="github">GitHub</Label>
+                    <Input
+                      id="github"
+                      value={profileSettings.github}
+                      onChange={(e) => setProfileSettings(prev => ({ ...prev, github: e.target.value }))}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-sm">Contact Information</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={profileSettings.email}
+                    onChange={(e) => setProfileSettings(prev => ({ ...prev, email: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={profileSettings.phone}
+                    onChange={(e) => setProfileSettings(prev => ({ ...prev, phone: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    value={profileSettings.location}
+                    onChange={(e) => setProfileSettings(prev => ({ ...prev, location: e.target.value }))}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-sm">Visibility Settings</h3>
+              {Object.entries(visibilitySettings).map(([key, value]) => (
+                <div key={key} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={key}
+                    checked={value}
+                    onCheckedChange={(checked) => 
+                      setVisibilitySettings(prev => ({
+                        ...prev,
+                        [key]: checked === true
+                      }))
+                    }
+                  />
+                  <Label htmlFor={key} className="text-sm font-medium capitalize">
+                    {key}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowSettings(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveProfile}>
+              Save Changes
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
