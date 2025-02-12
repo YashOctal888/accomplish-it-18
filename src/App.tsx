@@ -94,12 +94,12 @@ const App = () => (
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavLink to="/">
-                    Timeline
+                    Accomplishments
                   </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavLink to="/resume-builder">
-                    Resume Builder
+                    Artifacts
                   </NavLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
