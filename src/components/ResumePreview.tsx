@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
 import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText, Check, Download, Sparkles, Infinity, MessageSquare, MoreHorizontal, Bell, ExternalLink, Shield } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "./ui/use-toast";
 import {
@@ -21,27 +21,31 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
 
-  const handleExport = () => {
-    if (selectedAccomplishments.length === 0) {
-      toast({
-        title: "No accomplishments selected",
-        description: "Please select at least one accomplishment to export.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setShowExportModal(true);
-  };
+  // Group accomplishments by company
+  const groupedAccomplishments = useMemo(() => {
+    const groups = selectedAccomplishments.reduce((acc, accomplishment) => {
+      if (!acc[accomplishment.company]) {
+        acc[accomplishment.company] = [];
+      }
+      acc[accomplishment.company].push(accomplishment);
+      return acc;
+    }, {} as Record<string, typeof selectedAccomplishments>);
+
+    // Sort companies by most recent accomplishment date
+    return Object.entries(groups).sort(([, aAccomplishments], [, bAccomplishments]) => {
+      const aLatestDate = Math.max(...aAccomplishments.map(a => new Date(a.date).getTime()));
+      const bLatestDate = Math.max(...bAccomplishments.map(b => new Date(b.date).getTime()));
+      return bLatestDate - aLatestDate;
+    });
+  }, [selectedAccomplishments]);
 
   const getProfileHeadline = () => {
     if (selectedAccomplishments.length === 0) return "";
     
-    // Get the most recent role
     const latestAccomplishment = [...selectedAccomplishments].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )[0];
 
-    // Create a description based on key achievements
     const highlightedAccomplishments = selectedAccomplishments.filter(acc => 
       acc.tags?.includes('highlight')
     );
@@ -108,59 +112,72 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
         <div className="p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Experience</h2>
           <div className="space-y-8">
-            {selectedAccomplishments.map((accomplishment) => (
-              <div key={accomplishment.id} className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded bg-gray-100 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-gray-500" />
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-base font-semibold text-gray-900">{accomplishment.role}</h3>
-                  <div className="mt-1">
-                    <p className="text-sm text-gray-600">{accomplishment.company} · Full-time</p>
-                    <div className="flex items-center gap-1 text-sm text-gray-500 mt-0.5">
-                      <span>{format(new Date(accomplishment.date), "MMM yyyy")}</span>
-                      <span>-</span>
-                      <span>Present</span>
-                      <span className="mx-1">·</span>
-                      <span>1 yr 2 mos</span>
+            {groupedAccomplishments.map(([company, accomplishments]) => {
+              // Get the most recent role for this company
+              const latestAccomplishment = [...accomplishments].sort(
+                (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+              )[0];
+
+              // Get date range for the role
+              const latestDate = new Date(latestAccomplishment.date);
+              const earliestDate = new Date(Math.min(...accomplishments.map(a => new Date(a.date).getTime())));
+              
+              return (
+                <div key={company} className="flex gap-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 rounded bg-gray-100 flex items-center justify-center">
+                      <Building2 className="w-6 h-6 text-gray-500" />
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5">Greater Atlanta Area</p>
                   </div>
-                  <div className="mt-3">
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap">{accomplishment.privateDetails}</p>
-                  </div>
-                  {accomplishment.tags && accomplishment.tags.length > 0 && (
-                    <div className="mt-4">
-                      <div className="flex flex-wrap gap-2">
-                        {accomplishment.tags.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-800"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-semibold text-gray-900">{latestAccomplishment.role}</h3>
+                    <div className="mt-1">
+                      <p className="text-sm text-gray-600">{company} · Full-time</p>
+                      <div className="flex items-center gap-1 text-sm text-gray-500 mt-0.5">
+                        <span>{format(earliestDate, "MMM yyyy")}</span>
+                        <span>-</span>
+                        <span>{format(latestDate, "MMM yyyy")}</span>
+                        <span className="mx-1">·</span>
+                        <span>{format(latestDate, "yyyy") - format(earliestDate, "yyyy")} yrs</span>
                       </div>
+                      <p className="text-sm text-gray-500 mt-0.5">United States</p>
                     </div>
-                  )}
-                  {accomplishment.attachments && accomplishment.attachments.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      {accomplishment.attachments.map((attachment) => (
-                        <div key={attachment.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
-                          <FileText className="w-5 h-5 text-gray-400 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">{attachment.name}</p>
-                            <p className="text-xs text-gray-500">{attachment.type} · {attachment.size}</p>
-                          </div>
-                        </div>
+                    <div className="mt-3 space-y-2">
+                      {accomplishments.map((accomplishment) => (
+                        <p key={accomplishment.id} className="text-sm text-gray-700">• {accomplishment.title}</p>
                       ))}
                     </div>
-                  )}
+                    {accomplishments.flatMap(acc => acc.tags || []).length > 0 && (
+                      <div className="mt-4">
+                        <div className="flex flex-wrap gap-2">
+                          {Array.from(new Set(accomplishments.flatMap(acc => acc.tags || []))).map((tag, index) => (
+                            <span
+                              key={index}
+                              className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-800"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {accomplishments.some(acc => acc.attachments && acc.attachments.length > 0) && (
+                      <div className="mt-4 space-y-2">
+                        {accomplishments.flatMap(acc => acc.attachments || []).map((attachment) => (
+                          <div key={attachment.id} className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
+                            <FileText className="w-5 h-5 text-gray-400 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-medium text-gray-900">{attachment.name}</p>
+                              <p className="text-xs text-gray-500">{attachment.type} · {attachment.size}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
