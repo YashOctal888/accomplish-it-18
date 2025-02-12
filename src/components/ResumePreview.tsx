@@ -2,10 +2,11 @@
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, Download, FileText, Linkedin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { cn } from "@/lib/utils"; // Added this import
+import { cn } from "@/lib/utils";
+import { toast } from "./ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -15,13 +16,30 @@ import {
 } from "@/components/ui/dialog";
 
 export const ResumePreview = () => {
-  const { getSelectedAccomplishments } = useAccomplishmentStore();
+  const { getSelectedAccomplishments, clearSelection } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const handleDownload = () => {
     setShowDownloadModal(true);
+  };
+
+  const handleExport = (platform: "resume" | "linkedin") => {
+    if (selectedAccomplishments.length === 0) {
+      toast({
+        title: "No accomplishments selected",
+        description: "Please select at least one accomplishment to export.",
+        variant: "destructive",
+      });
+      return;
+    }
+    // In a real app, this would format and export the accomplishments
+    toast({
+      title: "Export successful!",
+      description: `${selectedAccomplishments.length} accomplishments exported to ${platform}.`,
+    });
+    clearSelection();
   };
 
   const ResumeContent = () => (
@@ -174,6 +192,24 @@ export const ResumePreview = () => {
       <div className="p-6 h-full overflow-auto bg-white space-y-4">
         <div className="flex justify-end gap-2">
           <Button 
+            variant="secondary" 
+            size="sm"
+            onClick={() => handleExport("linkedin")}
+            className="gap-2"
+          >
+            <Linkedin className="w-4 h-4" />
+            Export to LinkedIn
+          </Button>
+          <Button 
+            variant="secondary" 
+            size="sm"
+            onClick={() => handleExport("resume")}
+            className="gap-2"
+          >
+            <FileText className="w-4 h-4" />
+            Export to Resume
+          </Button>
+          <Button 
             variant="outline" 
             size="sm"
             onClick={handleDownload}
@@ -239,4 +275,3 @@ export const ResumePreview = () => {
     </>
   );
 };
-
