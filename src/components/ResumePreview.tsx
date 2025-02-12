@@ -1,4 +1,3 @@
-
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
@@ -15,7 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export const ResumePreview = () => {
+export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin' }) => {
   const { getSelectedAccomplishments, clearSelection } = useAccomplishmentStore();
   const selectedAccomplishments = getSelectedAccomplishments();
   const [isFullScreen, setIsFullScreen] = useState(false);

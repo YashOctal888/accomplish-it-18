@@ -51,34 +51,34 @@ const ResumeBuilder = () => {
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-              <Card className="w-[280px] h-[200px] p-4 cursor-pointer hover:border-accent transition-colors">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+              <Card className="w-[140px] h-[100px] p-3 cursor-pointer hover:border-accent transition-colors">
                 <div className="h-full flex flex-col">
-                  <div className="flex-1 bg-gray-100 rounded-md mb-2">
+                  <div className="flex-1 bg-gray-100 rounded-md mb-1">
                     {/* Preview Image 1 */}
                   </div>
-                  <div className="text-sm font-medium">Professional</div>
-                  <p className="text-xs text-muted-foreground">Clean and modern design for corporate roles</p>
+                  <div className="text-xs font-medium">Professional</div>
+                  <p className="text-[10px] text-muted-foreground">Clean and modern design</p>
                 </div>
               </Card>
 
-              <Card className="w-[280px] h-[200px] p-4 cursor-pointer hover:border-accent transition-colors">
+              <Card className="w-[140px] h-[100px] p-3 cursor-pointer hover:border-accent transition-colors">
                 <div className="h-full flex flex-col">
-                  <div className="flex-1 bg-gray-100 rounded-md mb-2">
+                  <div className="flex-1 bg-gray-100 rounded-md mb-1">
                     {/* Preview Image 2 */}
                   </div>
-                  <div className="text-sm font-medium">Creative</div>
-                  <p className="text-xs text-muted-foreground">Stand out with a unique layout for creative positions</p>
+                  <div className="text-xs font-medium">Creative</div>
+                  <p className="text-[10px] text-muted-foreground">Stand out design</p>
                 </div>
               </Card>
 
-              <Card className="w-[280px] h-[200px] p-4 cursor-pointer hover:border-accent transition-colors">
+              <Card className="w-[140px] h-[100px] p-3 cursor-pointer hover:border-accent transition-colors">
                 <div className="h-full flex flex-col">
-                  <div className="flex-1 bg-gray-100 rounded-md mb-2">
+                  <div className="flex-1 bg-gray-100 rounded-md mb-1">
                     {/* Preview Image 3 */}
                   </div>
-                  <div className="text-sm font-medium">Academic</div>
-                  <p className="text-xs text-muted-foreground">Comprehensive layout for academic and research roles</p>
+                  <div className="text-xs font-medium">Academic</div>
+                  <p className="text-[10px] text-muted-foreground">Research focused</p>
                 </div>
               </Card>
             </div>
