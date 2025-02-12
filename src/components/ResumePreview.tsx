@@ -33,6 +33,26 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
     setShowExportModal(true);
   };
 
+  const getProfileHeadline = () => {
+    if (selectedAccomplishments.length === 0) return "";
+    
+    // Get the most recent role
+    const latestAccomplishment = [...selectedAccomplishments].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )[0];
+
+    // Create a description based on key achievements
+    const highlightedAccomplishments = selectedAccomplishments.filter(acc => 
+      acc.tags?.includes('highlight')
+    );
+
+    if (highlightedAccomplishments.length > 0) {
+      return `${latestAccomplishment.role} | ${highlightedAccomplishments[0].title}`;
+    }
+
+    return `${latestAccomplishment.role} with expertise in ${selectedAccomplishments[0].tags?.slice(0, 2).join(" and ") || "various domains"}`;
+  };
+
   const ProfileHeader = () => (
     <div className="bg-white rounded-lg border mb-4">
       <div className="h-24 bg-[#1B2437] rounded-t-lg relative">
@@ -46,38 +66,24 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-semibold text-gray-900">Matthew Burris</h1>
+              <h1 className="text-2xl font-semibold text-gray-900">John Doe</h1>
               <Shield className="w-5 h-5 text-gray-500" />
               <span className="text-gray-500">· 1st</span>
             </div>
-            <p className="text-gray-700 mt-1">Build, Launch, and Scale your Venture Studio (Faster) | Trusted by 500+ Venture Studios globally | DM me "VSA" for more info</p>
+            <p className="text-gray-700 mt-1">{getProfileHeadline()}</p>
             <div className="flex items-center gap-2 text-gray-500 mt-2">
-              <span>Atlanta Metropolitan Area</span>
+              <span>United States</span>
               <span>·</span>
               <a href="#" className="text-blue-600 hover:underline">Contact info</a>
             </div>
-            <div className="flex items-center gap-2 mt-2">
-              <a href="#" className="flex items-center gap-1 text-blue-600 hover:underline">
-                <ExternalLink className="w-4 h-4" />
-                Accelerate your studio
-              </a>
-            </div>
             <div className="flex items-center gap-4 mt-3 text-gray-600">
               <div className="flex items-center gap-1">
-                <span className="font-medium">22,330</span>
+                <span className="font-medium">500+</span>
                 <span>followers</span>
               </div>
               <span>·</span>
               <div className="flex items-center gap-1">
                 <span className="text-blue-600 hover:underline cursor-pointer">500+ connections</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-2">
-            <div className="flex items-center gap-2">
-              <img src="/public/lovable-uploads/cec13222-4459-4f51-9a68-e17e159543ba.png" alt="Company Logo" className="w-12 h-12 rounded" />
-              <div>
-                <p className="font-medium text-gray-900">Venture Studio Associates</p>
               </div>
             </div>
           </div>
