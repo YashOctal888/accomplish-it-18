@@ -197,7 +197,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
       </div>
 
       <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>Choose Your Export Plan</DialogTitle>
             <DialogDescription>
