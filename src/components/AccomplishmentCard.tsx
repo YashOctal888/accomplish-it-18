@@ -1,10 +1,12 @@
 
 import { Accomplishment, View } from "../types/accomplishment";
 import { Card, CardHeader } from "./ui/card";
+import { Checkbox } from "./ui/checkbox";
 import { format } from "date-fns";
 import { Circle, Calendar, Briefcase, Building2, FileText, Download, Share2, Star, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { useAccomplishmentStore } from "../store/accomplishments";
 
 interface AccomplishmentCardProps {
   accomplishment: Accomplishment;
@@ -16,6 +18,7 @@ export const AccomplishmentCard = ({
   view,
 }: AccomplishmentCardProps) => {
   const { title, date, role, company, privateDetails, selected, attachments, tags } = accomplishment;
+  const { toggleSelected } = useAccomplishmentStore();
 
   const getFileIcon = (type: string) => {
     switch (type.toLowerCase()) {
@@ -43,87 +46,94 @@ export const AccomplishmentCard = ({
         )}
       >
         <CardHeader className="p-3">
-          <div className="flex-1 min-w-0">
-            {/* First row */}
-            <div className="flex items-start justify-between mb-2">
-              <h3 className="font-medium text-sm">{title}</h3>
-              <div className="flex items-center gap-1 flex-shrink-0">
-                <Star className="h-3.5 w-3.5 text-yellow-500" />
-                <Pencil className="h-3.5 w-3.5 text-gray-500" />
+          <div className="flex items-start gap-2">
+            <Checkbox
+              checked={selected}
+              onCheckedChange={() => toggleSelected(accomplishment.id)}
+              className="mt-1"
+            />
+            <div className="flex-1 min-w-0">
+              {/* First row */}
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="font-medium text-sm">{title}</h3>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <Star className="h-3.5 w-3.5 text-yellow-500" />
+                  <Pencil className="h-3.5 w-3.5 text-gray-500" />
+                </div>
               </div>
-            </div>
 
-            {/* Second row */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
-              <div className="flex items-center">
-                <Building2 className="w-3.5 h-3.5 mr-1 text-gray-500" />
-                {company}
+              {/* Second row */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
+                <div className="flex items-center">
+                  <Building2 className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {company}
+                </div>
+                <div className="flex items-center">
+                  <Briefcase className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {role}
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="w-3.5 h-3.5 mr-1 text-gray-500" />
+                  {format(new Date(date), "MMM d, yyyy")}
+                </div>
               </div>
-              <div className="flex items-center">
-                <Briefcase className="w-3.5 h-3.5 mr-1 text-gray-500" />
-                {role}
-              </div>
-              <div className="flex items-center">
-                <Calendar className="w-3.5 h-3.5 mr-1 text-gray-500" />
-                {format(new Date(date), "MMM d, yyyy")}
-              </div>
-            </div>
 
-            {/* Description */}
-            {privateDetails && (
-              <p className="text-xs text-gray-600 mb-2">
-                {privateDetails}
-              </p>
-            )}
+              {/* Description */}
+              {privateDetails && (
+                <p className="text-xs text-gray-600 mb-2">
+                  {privateDetails}
+                </p>
+              )}
 
-            {/* Documents section */}
-            {attachments && attachments.length > 0 && (
-              <div className="space-y-1.5 mb-2">
-                {attachments.map((file) => (
-                  <div
-                    key={file.id}
-                    className="flex items-center justify-between p-1.5 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="flex items-center space-x-1.5 min-w-0">
-                      <div className={cn("p-1 rounded-md", getFileIcon(file.type))}>
-                        <FileText className="w-3.5 h-3.5" />
+              {/* Documents section */}
+              {attachments && attachments.length > 0 && (
+                <div className="space-y-1.5 mb-2">
+                  {attachments.map((file) => (
+                    <div
+                      key={file.id}
+                      className="flex items-center justify-between p-1.5 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center space-x-1.5 min-w-0">
+                        <div className={cn("p-1 rounded-md", getFileIcon(file.type))}>
+                          <FileText className="w-3.5 h-3.5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-[10px] truncate">{file.name}</p>
+                          <p className="text-[9px] text-gray-500">{file.type.toUpperCase()} • {file.size}</p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <p className="font-medium text-[10px] truncate">{file.name}</p>
-                        <p className="text-[9px] text-gray-500">{file.type.toUpperCase()} • {file.size}</p>
+                      <div className="flex items-center gap-0.5 flex-shrink-0">
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          <Download className="w-3 h-3" />
+                        </Button>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          <Share2 className="w-3 h-3" />
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-0.5 flex-shrink-0">
-                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                        <Download className="w-3 h-3" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                        <Share2 className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
 
-            {/* Tags */}
-            {tags && tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className={cn(
-                      "px-1.5 py-0.5 text-[10px] rounded-full",
-                      tag === "highlight"
-                        ? "bg-accent/10 text-accent font-medium"
-                        : "bg-gray-100 text-gray-600"
-                    )}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+              {/* Tags */}
+              {tags && tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className={cn(
+                        "px-1.5 py-0.5 text-[10px] rounded-full",
+                        tag === "highlight"
+                          ? "bg-accent/10 text-accent font-medium"
+                          : "bg-gray-100 text-gray-600"
+                      )}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </CardHeader>
       </Card>
