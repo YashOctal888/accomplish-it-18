@@ -1,7 +1,8 @@
+
 import { useAccomplishmentStore } from "@/store/accomplishments";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { format } from "date-fns";
-import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText, Check, Download, Sparkles, Infinity } from "lucide-react";
+import { Building2, Briefcase, Calendar, MapPin, Globe, AtSign, Mail, Maximize2, FileText, Check, Download, Sparkles, Infinity, MessageSquare, MoreHorizontal, Bell, ExternalLink, Shield } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,69 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
     }
     setShowExportModal(true);
   };
+
+  const ProfileHeader = () => (
+    <div className="bg-white rounded-lg border mb-4">
+      <div className="h-24 bg-[#1B2437] rounded-t-lg relative">
+        <div className="absolute -bottom-12 left-6">
+          <div className="w-32 h-32 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center">
+            <Building2 className="w-16 h-16 text-gray-400" />
+          </div>
+        </div>
+      </div>
+      <div className="pt-16 px-6 pb-6">
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-semibold text-gray-900">Matthew Burris</h1>
+              <Shield className="w-5 h-5 text-gray-500" />
+              <span className="text-gray-500">· 1st</span>
+            </div>
+            <p className="text-gray-700 mt-1">Build, Launch, and Scale your Venture Studio (Faster) | Trusted by 500+ Venture Studios globally | DM me "VSA" for more info</p>
+            <div className="flex items-center gap-2 text-gray-500 mt-2">
+              <span>Atlanta Metropolitan Area</span>
+              <span>·</span>
+              <a href="#" className="text-blue-600 hover:underline">Contact info</a>
+            </div>
+            <div className="flex items-center gap-2 mt-2">
+              <a href="#" className="flex items-center gap-1 text-blue-600 hover:underline">
+                <ExternalLink className="w-4 h-4" />
+                Accelerate your studio
+              </a>
+            </div>
+            <div className="flex items-center gap-4 mt-3 text-gray-600">
+              <div className="flex items-center gap-1">
+                <span className="font-medium">22,330</span>
+                <span>followers</span>
+              </div>
+              <span>·</span>
+              <div className="flex items-center gap-1">
+                <span className="text-blue-600 hover:underline cursor-pointer">500+ connections</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="flex items-center gap-2">
+              <img src="/public/lovable-uploads/cec13222-4459-4f51-9a68-e17e159543ba.png" alt="Company Logo" className="w-12 h-12 rounded" />
+              <div>
+                <p className="font-medium text-gray-900">Venture Studio Associates</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white gap-2">
+            <MessageSquare className="w-4 h-4" />
+            Message
+          </Button>
+          <Button variant="outline" className="gap-2">
+            <MoreHorizontal className="w-4 h-4" />
+            More
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 
   const ResumeContent = () => (
     <div className="space-y-6">
@@ -132,6 +196,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
               Exit Full Screen
             </Button>
           </div>
+          <ProfileHeader />
           <ResumeContent />
         </div>
       </div>
@@ -161,6 +226,7 @@ export const ResumePreview = ({ type = 'resume' }: { type?: 'resume' | 'linkedin
             Full Screen
           </Button>
         </div>
+        <ProfileHeader />
         <ResumeContent />
       </div>
 
