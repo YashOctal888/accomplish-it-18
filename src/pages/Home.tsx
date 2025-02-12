@@ -1,3 +1,4 @@
+
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -132,28 +133,55 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       <main className="max-w-2xl mx-auto py-8 px-4">
-        <div className="flex justify-between mb-4 items-center">
-          <Button
-            onClick={() => setShowAddModal(true)}
-            className="gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Add Accomplishment
-          </Button>
-          <div className="flex items-center gap-4">
+        {view === "private" && (
+          <div className="flex justify-between mb-4 items-center">
+            <Button
+              onClick={() => setShowAddModal(true)}
+              className="gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Add Accomplishment
+            </Button>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
+                  {view === "private" ? (
+                    <>
+                      <EyeOff className="w-4 h-4" />
+                      Private View
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      Public View
+                    </>
+                  )}
+                </Label>
+                <Switch
+                  id="view-mode"
+                  checked={view === "public"}
+                  onCheckedChange={(checked) => setView(checked ? "public" : "private")}
+                />
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => setShowSettings(true)}
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Always show the view toggle even in public view */}
+        {view === "public" && (
+          <div className="flex justify-end mb-4">
             <div className="flex items-center gap-2">
               <Label htmlFor="view-mode" className="text-sm text-gray-600 flex items-center gap-2">
-                {view === "private" ? (
-                  <>
-                    <EyeOff className="w-4 h-4" />
-                    Private View
-                  </>
-                ) : (
-                  <>
-                    <Eye className="w-4 h-4" />
-                    Public View
-                  </>
-                )}
+                <Eye className="w-4 h-4" />
+                Public View
               </Label>
               <Switch
                 id="view-mode"
@@ -161,16 +189,8 @@ const Home = () => {
                 onCheckedChange={(checked) => setView(checked ? "public" : "private")}
               />
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 w-8 p-0"
-              onClick={() => setShowSettings(true)}
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
           </div>
-        </div>
+        )}
 
         <Card className="p-6 shadow-sm border-gray-100">
           <div className="space-y-6">
