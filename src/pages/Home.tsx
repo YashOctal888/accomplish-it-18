@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -58,11 +57,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto py-4 px-4">
-          <h1 className="text-2xl font-semibold text-gray-900">Accomplish It</h1>
-        </div>
-      </header>
       <main className="max-w-2xl mx-auto py-8 px-4">
         <div className="flex justify-end mb-4">
           <div className="flex items-center gap-2">
