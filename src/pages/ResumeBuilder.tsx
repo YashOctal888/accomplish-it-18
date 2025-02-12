@@ -4,6 +4,7 @@ import { PlusCircle, Sparkles, Linkedin } from "lucide-react";
 import { useState } from "react";
 import { ResumeBuilderModal } from "@/components/ResumeBuilderModal";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const ResumeBuilder = () => {
   const [showModal, setShowModal] = useState(false);
@@ -50,6 +51,8 @@ const ResumeBuilder = () => {
                 Create LinkedIn Update
               </Button>
             </div>
+
+            <Separator className="w-[280px] mx-auto" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
               <Card className="w-[140px] h-[100px] p-3 cursor-pointer hover:border-accent transition-colors">
