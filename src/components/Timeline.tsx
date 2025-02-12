@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useState, useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 export const Timeline = () => {
   const { accomplishments } = useAccomplishmentStore();
@@ -59,12 +60,14 @@ export const Timeline = () => {
     return groups;
   }, {} as Record<string, typeof accomplishments>);
 
+  const selectTriggerClassName = "bg-[#D3E4FD] border-0 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-colors font-medium";
+
   return (
     <div className="h-[calc(100vh-96px)] animate-fade-in">
-      <div className="p-4 space-y-2 border-b">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="p-4 space-y-2">
+        <div className="flex flex-wrap gap-2">
           <Select value={selectedCompany} onValueChange={setSelectedCompany}>
-            <SelectTrigger>
+            <SelectTrigger className={cn("w-auto min-w-32", selectTriggerClassName)}>
               <SelectValue placeholder="Company" />
             </SelectTrigger>
             <SelectContent>
@@ -78,7 +81,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger>
+            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
               <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
@@ -92,7 +95,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger>
+            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
               <SelectValue placeholder="Month" />
             </SelectTrigger>
             <SelectContent>
@@ -109,7 +112,7 @@ export const Timeline = () => {
           </Select>
 
           <Select value={selectedTag} onValueChange={setSelectedTag}>
-            <SelectTrigger>
+            <SelectTrigger className={cn("w-auto min-w-28", selectTriggerClassName)}>
               <SelectValue placeholder="Tag" />
             </SelectTrigger>
             <SelectContent>
@@ -124,7 +127,7 @@ export const Timeline = () => {
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(100vh-220px)] px-4">
+      <ScrollArea className="h-[calc(100vh-180px)] px-4">
         <div className="relative space-y-0">
           {Object.entries(groupedAccomplishments).map(([dateGroup, items]) => (
             <div key={dateGroup}>
