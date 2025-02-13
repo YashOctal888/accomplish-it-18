@@ -267,7 +267,7 @@ const Home = () => {
               <Button
                 onClick={() => setShowAddModal(true)}
                 variant="ghost"
-                className="gap-2 text-[#377E7F] hover:border-[#377E7F] hover:border hover:bg-transparent"
+                className="gap-2 text-[#377E7F] hover:border-[#377E7F] hover:border hover:bg-transparent hover:text-[#377E7F]"
               >
                 <Plus className="h-4 w-4" />
                 Add Accomplishment
