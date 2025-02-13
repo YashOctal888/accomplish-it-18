@@ -36,7 +36,7 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
       to={to} 
       className={`relative h-14 flex items-center px-4 text-sm font-medium transition-colors hover:text-white ${
         isActive 
-          ? "text-white after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:bg-white" 
+          ? "text-[#ED772F] after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:bg-[#ED772F]" 
           : "text-white/80 hover:after:absolute hover:after:bottom-[-1px] hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-white/50"
       }`}
     >
