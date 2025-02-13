@@ -66,7 +66,7 @@ const ResumeBuilder = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-[#F6FBFB]">
       <main className="py-8 px-4 max-w-4xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {artifacts.map((artifact) => {
