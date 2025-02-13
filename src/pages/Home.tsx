@@ -96,7 +96,9 @@ const Home = () => {
   };
 
   const handleOpenDetails = (id: string) => {
-    if (view === "private") {
+    if (view === "public") return;
+    const accomplishment = accomplishments.find(a => a.id === id);
+    if (accomplishment) {
       setSelectedAccomplishment(id);
     }
   };
