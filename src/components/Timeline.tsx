@@ -1,4 +1,3 @@
-
 import { useAccomplishmentStore } from "../store/accomplishments";
 import { AccomplishmentCard } from "./AccomplishmentCard";
 import { ScrollArea } from "./ui/scroll-area";
@@ -65,7 +64,7 @@ export const Timeline = ({ view = "private" }: TimelineProps) => {
     return groups;
   }, {} as Record<string, typeof accomplishments>);
 
-  const selectTriggerClassName = "h-8 bg-white border border-[#8E9196] hover:bg-gray-50 hover:border-gray-400 transition-colors text-sm font-medium";
+  const selectTriggerClassName = "h-8 bg-white border border-[#ED772F] hover:bg-gray-50 hover:border-[#ED772F]/80 transition-colors text-sm font-medium text-[#ED772F]";
 
   return (
     <div className="h-[calc(100vh-96px)] animate-fade-in bg-white">
