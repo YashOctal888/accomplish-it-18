@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus, Globe, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -97,7 +96,7 @@ const Home = () => {
   };
 
   const handleOpenDetails = (id: string) => {
-    if (view === "public") return;  // Fixed the type comparison
+    if (view === "public") return;
     const accomplishment = accomplishments.find(a => a.id === id);
     if (accomplishment) {
       setSelectedAccomplishment(id);
@@ -268,7 +267,7 @@ const Home = () => {
               <Button
                 onClick={() => setShowAddModal(true)}
                 variant="ghost"
-                className="gap-2 text-[#377E7F] hover:text-[#377E7F]/90 hover:border hover:border-[#377E7F]"
+                className="gap-2 text-[#377E7F] hover:border-[#377E7F] hover:border"
               >
                 <Plus className="h-4 w-4" />
                 Add Accomplishment
