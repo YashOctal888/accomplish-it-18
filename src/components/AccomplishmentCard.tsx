@@ -23,13 +23,13 @@ export const AccomplishmentCard = ({
   const getFileIcon = (type: string) => {
     switch (type.toLowerCase()) {
       case 'docx':
-        return 'bg-blue-100 text-blue-600';
+        return 'bg-[#F6FBFB] text-blue-600';
       case 'pwr':
-        return 'bg-orange-100 text-orange-600';
+        return 'bg-[#F6FBFB] text-orange-600';
       case 'xlc':
-        return 'bg-green-100 text-green-600';
+        return 'bg-[#F6FBFB] text-green-600';
       default:
-        return 'bg-gray-100 text-gray-600';
+        return 'bg-[#F6FBFB] text-gray-600';
     }
   };
 
@@ -106,7 +106,7 @@ export const AccomplishmentCard = ({
                   {attachments.map((file) => (
                     <div
                       key={file.id}
-                      className="flex items-center justify-between p-1.5 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between p-1.5 bg-[#F6FBFB] rounded-md hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex items-center space-x-1.5 min-w-0">
                         <div className={cn("p-1 rounded-md", getFileIcon(file.type))}>
@@ -140,7 +140,7 @@ export const AccomplishmentCard = ({
                         "px-1.5 py-0.5 text-[10px] rounded-full",
                         tag === "highlight"
                           ? "bg-accent/10 text-accent font-medium"
-                          : "bg-gray-100 text-gray-600"
+                          : "bg-[#F6FBFB] text-gray-600"
                       )}
                     >
                       {tag}
