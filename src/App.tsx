@@ -84,8 +84,12 @@ const Navigation = ({ isPublicView }: { isPublicView: boolean }) => {
   return (
     <nav className="bg-[#377E7F]">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
-        <Link to="/" className="font-bold text-lg text-white">
-          Accomplish it
+        <Link to="/">
+          <img 
+            src="/lovable-uploads/b319e0ed-4a1d-4f33-a859-c9ab1db0a991.png" 
+            alt="Accomplish It" 
+            className="h-6"
+          />
         </Link>
         <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
           <NavigationMenuList className="space-x-2">
