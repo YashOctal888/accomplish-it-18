@@ -264,7 +264,8 @@ const Home = () => {
             <div className="flex justify-between mb-4 items-center">
               <Button
                 onClick={() => setShowAddModal(true)}
-                className="gap-2 bg-[#377E7F] hover:bg-[#377E7F]/90 text-white"
+                variant="ghost"
+                className="gap-2 text-[#377E7F] hover:text-[#377E7F]/90"
               >
                 <Plus className="h-4 w-4" />
                 Add Accomplishment
