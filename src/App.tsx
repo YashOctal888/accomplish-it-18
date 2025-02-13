@@ -34,10 +34,10 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
   return (
     <Link 
       to={to} 
-      className={`relative h-14 flex items-center px-4 text-sm font-medium transition-colors hover:text-primary ${
+      className={`relative h-14 flex items-center px-4 text-sm font-medium transition-colors hover:text-white ${
         isActive 
-          ? "text-primary after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:bg-primary" 
-          : "text-muted-foreground hover:after:absolute hover:after:bottom-[-1px] hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-primary/50"
+          ? "text-white after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-0.5 after:bg-white" 
+          : "text-white/80 hover:after:absolute hover:after:bottom-[-1px] hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-white/50"
       }`}
     >
       {children}
@@ -50,7 +50,7 @@ const ProfileDropdown = () => {
   
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2 px-4 h-14 text-sm font-medium hover:text-primary">
+      <DropdownMenuTrigger className="flex items-center gap-2 px-4 h-14 text-sm font-medium text-white/80 hover:text-white">
         <User className="h-4 w-4" />
         <span>Profile</span>
         <ChevronDown className="h-4 w-4" />
@@ -82,9 +82,9 @@ const Navigation = ({ isPublicView }: { isPublicView: boolean }) => {
   if (isPublicView) return null;
 
   return (
-    <nav className="border-b">
+    <nav className="bg-[#377E7F]">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
-        <Link to="/" className="font-bold text-lg">
+        <Link to="/" className="font-bold text-lg text-white">
           Accomplish it
         </Link>
         <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
@@ -110,20 +110,14 @@ const Navigation = ({ isPublicView }: { isPublicView: boolean }) => {
 const App = () => {
   const [isPublicView, setIsPublicView] = useState(false);
 
-  // Listen for changes in local storage
   useEffect(() => {
     const handleStorageChange = () => {
       const view = localStorage.getItem('view');
       setIsPublicView(view === 'public');
     };
 
-    // Initial check
     handleStorageChange();
-
-    // Listen for changes
     window.addEventListener('storage', handleStorageChange);
-    
-    // Custom event for same-window updates
     window.addEventListener('viewChange', handleStorageChange);
 
     return () => {
