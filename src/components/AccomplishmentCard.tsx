@@ -33,12 +33,10 @@ export const AccomplishmentCard = ({
     }
   };
 
-  // Function to blur sensitive numbers in text
   const blurMetrics = (text: string) => {
     return text.replace(/\$?\d+([,.]?\d+)?(\s*%|\s*k|\s*M)?/g, '***');
   };
 
-  // Function to blur company name
   const getCompanyDisplay = () => {
     if (view === "private") return company;
     return "Company ***";
@@ -66,7 +64,6 @@ export const AccomplishmentCard = ({
               />
             )}
             <div className="flex-1 min-w-0">
-              {/* First row */}
               <div className="flex items-start justify-between mb-2">
                 <h3 className="font-medium text-sm">{title}</h3>
                 {view === "private" && (
@@ -77,7 +74,6 @@ export const AccomplishmentCard = ({
                 )}
               </div>
 
-              {/* Second row */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
                 <div className="flex items-center">
                   <Building2 className="w-3.5 h-3.5 mr-1 text-gray-500" />
@@ -93,14 +89,12 @@ export const AccomplishmentCard = ({
                 </div>
               </div>
 
-              {/* Description */}
               {privateDetails && (
                 <p className="text-xs text-gray-600 mb-2">
                   {view === "private" ? privateDetails : blurMetrics(privateDetails)}
                 </p>
               )}
 
-              {/* Documents section */}
               {view === "private" && attachments && attachments.length > 0 && (
                 <div className="space-y-1.5 mb-2">
                   {attachments.map((file) => (
@@ -130,7 +124,6 @@ export const AccomplishmentCard = ({
                 </div>
               )}
 
-              {/* Tags */}
               {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {tags.map((tag, index) => (
@@ -139,8 +132,8 @@ export const AccomplishmentCard = ({
                       className={cn(
                         "px-1.5 py-0.5 text-[10px] rounded-full",
                         tag === "highlight"
-                          ? "bg-accent/10 text-accent font-medium"
-                          : "bg-[#F6FBFB] text-gray-600"
+                          ? "bg-[#f3b8ae]/10 text-[#f3b8ae] font-medium"
+                          : "bg-[#f3b8ae]/10 text-[#f3b8ae]"
                       )}
                     >
                       {tag}
