@@ -181,7 +181,7 @@ const Home = () => {
   };
 
   const handleViewToggle = (checked: boolean) => {
-    setView(checked ? "public" : "private");
+    setView(checked ? "public" : "private" as View);
   };
 
   const ProfileSection = () => {
@@ -257,7 +257,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-[#F6FBFB]">
       <div className="max-w-7xl mx-auto px-4">
         <main className="max-w-2xl mx-auto py-8">
           {view === "private" && (
