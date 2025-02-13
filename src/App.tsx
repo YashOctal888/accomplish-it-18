@@ -88,7 +88,7 @@ const Navigation = ({ isPublicView }: { isPublicView: boolean }) => {
           <img 
             src="/lovable-uploads/b319e0ed-4a1d-4f33-a859-c9ab1db0a991.png" 
             alt="Accomplish It" 
-            className="h-6"
+            className="h-9"
           />
         </Link>
         <NavigationMenu className="absolute left-1/2 -translate-x-1/2">
