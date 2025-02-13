@@ -1,3 +1,4 @@
+
 import { format } from "date-fns";
 import { Medal, Star, Award, Trophy, ChevronRight, Calendar, Briefcase, Building2, Upload, FileText, Download, Share2, Pencil, Eye, EyeOff, Settings, Plus, Globe, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -96,7 +97,7 @@ const Home = () => {
   };
 
   const handleOpenDetails = (id: string) => {
-    if (view !== "private") return;
+    if (view === "public") return;  // Fixed the type comparison
     const accomplishment = accomplishments.find(a => a.id === id);
     if (accomplishment) {
       setSelectedAccomplishment(id);
