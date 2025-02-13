@@ -347,7 +347,7 @@ const Home = () => {
                               {view === "private" && (
                                 <button 
                                   onClick={() => handleOpenDetails(accomplishment.id)}
-                                  className="flex-shrink-0 text-blue-600 hover:text-blue-700 text-xs font-medium flex items-center gap-0.5 pt-0.5"
+                                  className="flex-shrink-0 text-black hover:text-black/80 text-xs font-medium flex items-center gap-0.5 pt-0.5"
                                 >
                                   See Details
                                   <ChevronRight className="h-3 w-3" />
