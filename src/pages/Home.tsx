@@ -311,7 +311,7 @@ const Home = () => {
 
           <ProfileSection />
 
-          <Card className="p-6 shadow-sm border-gray-100">
+          <Card className="p-6 [box-shadow:rgba(0,_0,_0,_0.05)_0px_6px_24px_0px,_rgba(0,_0,_0,_0.08)_0px_0px_0px_1px] border-0">
             <div className="space-y-6">
               {Object.entries(groupedAccomplishments).map(([dateGroup, items], groupIndex) => (
                 <div key={dateGroup}>
