@@ -22,36 +22,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { X } from 'lucide-vue-next'
 
-export default {
-  name: 'ResumeBuilderModal',
-  components: {
-    X
-  },
-  props: {
-    type: {
-      type: String,
-      default: 'resume'
-    }
-  },
-  emits: ['close'],
-  setup(props) {
-    const modalTitle = computed(() => {
-      switch (props.type) {
-        case 'linkedin':
-          return 'Create LinkedIn Update'
-        case 'resume':
-        default:
-          return 'Create New Resume'
-      }
-    })
-
-    return {
-      modalTitle
-    }
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'resume'
   }
-}
+})
+
+const emit = defineEmits(['close'])
+
+const modalTitle = computed(() => {
+  switch (props.type) {
+    case 'linkedin':
+      return 'Create LinkedIn Update'
+    case 'resume':
+    default:
+      return 'Create New Resume'
+  }
+})
 </script>

@@ -8,8 +8,11 @@
   </div>
 </template>
 
-<script>
-export default {
+<script setup>
+// Using setup script with Composition API
+import { defineComponent } from 'vue'
+
+defineComponent({
   name: 'Home'
-}
+})
 </script>

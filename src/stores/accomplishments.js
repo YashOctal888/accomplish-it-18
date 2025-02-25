@@ -2,7 +2,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-// Sample accomplishments data
 const sampleAccomplishments = [
   {
     id: "1",
@@ -21,8 +20,7 @@ const sampleAccomplishments = [
         url: "/docs/final-points.docx"
       }
     ]
-  },
-  // ... Add more sample accomplishments as needed
+  }
 ]
 
 export const useAccomplishmentStore = defineStore('accomplishments', () => {
