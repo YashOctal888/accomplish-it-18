@@ -22,4 +22,3 @@ export interface FileAttachment {
 }
 
 export type View = "private" | "public";
-
