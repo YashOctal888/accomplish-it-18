@@ -16,44 +16,42 @@
     </div>
 
     <div class="h-[calc(100vh-56px)] grid grid-cols-[60%_40%]">
-      <Timeline />
-      <component :is="previewComponent" />
+      <div>Timeline component will go here</div>
+      <div>Preview component will go here</div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script>
 import { computed } from 'vue'
 import { X } from 'lucide-vue-next'
-import Timeline from './Timeline.vue'
-import ResumePreview from './ResumePreview.vue'
-import LinkedInPreview from './LinkedInPreview.vue'
 
-const props = defineProps<{
-  type: 'resume' | 'linkedin'
-}>()
+export default {
+  name: 'ResumeBuilderModal',
+  components: {
+    X
+  },
+  props: {
+    type: {
+      type: String,
+      default: 'resume'
+    }
+  },
+  emits: ['close'],
+  setup(props) {
+    const modalTitle = computed(() => {
+      switch (props.type) {
+        case 'linkedin':
+          return 'Create LinkedIn Update'
+        case 'resume':
+        default:
+          return 'Create New Resume'
+      }
+    })
 
-defineEmits<{
-  (e: 'close'): void
-}>()
-
-const modalTitle = computed(() => {
-  switch (props.type) {
-    case 'linkedin':
-      return 'Create LinkedIn Update'
-    case 'resume':
-    default:
-      return 'Create New Resume'
+    return {
+      modalTitle
+    }
   }
-})
-
-const previewComponent = computed(() => {
-  switch (props.type) {
-    case 'linkedin':
-      return LinkedInPreview
-    case 'resume':
-    default:
-      return ResumePreview
-  }
-})
+}
 </script>

@@ -38,7 +38,6 @@
           </nav>
         </div>
 
-        <!-- Profile Dropdown -->
         <div class="relative" v-click-outside="closeDropdown">
           <button 
             @click="toggleDropdown"
@@ -75,57 +74,75 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { User, Settings, LogOut, ChevronDown } from 'lucide-vue-next'
 
-const isPublicView = ref(false)
-const isDropdownOpen = ref(false)
-const router = useRouter()
+export default {
+  name: 'App',
+  components: {
+    User,
+    Settings,
+    LogOut,
+    ChevronDown
+  },
+  setup() {
+    const isPublicView = ref(false)
+    const isDropdownOpen = ref(false)
+    const router = useRouter()
 
-const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value
-}
+    const toggleDropdown = () => {
+      isDropdownOpen.value = !isDropdownOpen.value
+    }
 
-const closeDropdown = () => {
-  isDropdownOpen.value = false
-}
+    const closeDropdown = () => {
+      isDropdownOpen.value = false
+    }
 
-const signOut = () => {
-  // Implement sign out logic here
-  closeDropdown()
-}
+    const signOut = () => {
+      closeDropdown()
+    }
 
-const handleStorageChange = () => {
-  const view = localStorage.getItem('view')
-  isPublicView.value = view === 'public'
-}
+    const handleStorageChange = () => {
+      const view = localStorage.getItem('view')
+      isPublicView.value = view === 'public'
+    }
 
-onMounted(() => {
-  handleStorageChange()
-  window.addEventListener('storage', handleStorageChange)
-  window.addEventListener('viewChange', handleStorageChange)
-})
+    onMounted(() => {
+      handleStorageChange()
+      window.addEventListener('storage', handleStorageChange)
+      window.addEventListener('viewChange', handleStorageChange)
+    })
 
-onUnmounted(() => {
-  window.removeEventListener('storage', handleStorageChange)
-  window.removeEventListener('viewChange', handleStorageChange)
-})
+    onUnmounted(() => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('viewChange', handleStorageChange)
+    })
 
-// Click outside directive
-const vClickOutside = {
-  mounted(el: HTMLElement, binding: any) {
-    el.clickOutsideEvent = (event: Event) => {
-      if (!(el === event.target || el.contains(event.target as Node))) {
-        binding.value()
+    const vClickOutside = {
+      mounted(el, binding) {
+        el.clickOutsideEvent = (event) => {
+          if (!(el === event.target || el.contains(event.target))) {
+            binding.value()
+          }
+        }
+        document.addEventListener('click', el.clickOutsideEvent)
+      },
+      unmounted(el) {
+        document.removeEventListener('click', el.clickOutsideEvent)
       }
     }
-    document.addEventListener('click', el.clickOutsideEvent)
-  },
-  unmounted(el: HTMLElement) {
-    document.removeEventListener('click', el.clickOutsideEvent)
-  },
+
+    return {
+      isPublicView,
+      isDropdownOpen,
+      toggleDropdown,
+      closeDropdown,
+      signOut,
+      vClickOutside
+    }
+  }
 }
 </script>
 

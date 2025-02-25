@@ -64,65 +64,84 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script>
 import { ref } from 'vue'
 import { FileText, MessagesSquare, FileSpreadsheet, Linkedin } from 'lucide-vue-next'
 import ResumeBuilderModal from '../components/ResumeBuilderModal.vue'
 
-const showModal = ref(false)
-const modalType = ref<'resume' | 'linkedin'>('resume')
+export default {
+  name: 'ResumeBuilder',
+  components: {
+    ResumeBuilderModal,
+    FileText,
+    MessagesSquare,
+    FileSpreadsheet,
+    Linkedin
+  },
+  setup() {
+    const showModal = ref(false)
+    const modalType = ref('resume')
 
-const handleModalOpen = (type: 'resume' | 'linkedin') => {
-  modalType.value = type
-  showModal.value = true
+    const handleModalOpen = (type) => {
+      modalType.value = type
+      showModal.value = true
+    }
+
+    const artifacts = [
+      {
+        title: "Performance Review",
+        description: "Track and manage performance reviews",
+        icon: FileSpreadsheet,
+        onClick: () => handleModalOpen('resume')
+      },
+      {
+        title: "1:1",
+        description: "Document one-on-one meetings",
+        icon: MessagesSquare,
+        onClick: () => handleModalOpen('resume')
+      },
+      {
+        title: "Resume",
+        description: "Create and update your resume",
+        icon: FileText,
+        onClick: () => handleModalOpen('resume')
+      },
+      {
+        title: "LinkedIn Profile",
+        description: "Generate LinkedIn content",
+        icon: Linkedin,
+        onClick: () => handleModalOpen('linkedin')
+      }
+    ]
+
+    const previousArtifacts = [
+      {
+        title: "Q4 Performance Review",
+        type: "Performance Review",
+        date: "2024-02-15",
+        icon: FileSpreadsheet
+      },
+      {
+        title: "Weekly 1:1 with Manager",
+        type: "1:1",
+        date: "2024-02-10",
+        icon: MessagesSquare,
+        tags: ["Auto-updated", "Shared"]
+      },
+      {
+        title: "Software Engineer Resume",
+        type: "Resume",
+        date: "2024-02-01",
+        icon: FileText
+      }
+    ]
+
+    return {
+      showModal,
+      modalType,
+      artifacts,
+      previousArtifacts
+    }
+  }
 }
-
-const artifacts = [
-  {
-    title: "Performance Review",
-    description: "Track and manage performance reviews",
-    icon: FileSpreadsheet,
-    onClick: () => handleModalOpen('resume')
-  },
-  {
-    title: "1:1",
-    description: "Document one-on-one meetings",
-    icon: MessagesSquare,
-    onClick: () => handleModalOpen('resume')
-  },
-  {
-    title: "Resume",
-    description: "Create and update your resume",
-    icon: FileText,
-    onClick: () => handleModalOpen('resume')
-  },
-  {
-    title: "LinkedIn Profile",
-    description: "Generate LinkedIn content",
-    icon: Linkedin,
-    onClick: () => handleModalOpen('linkedin')
-  }
-]
-
-const previousArtifacts = [
-  {
-    title: "Q4 Performance Review",
-    type: "Performance Review",
-    date: "2024-02-15",
-    icon: FileSpreadsheet
-  },
-  {
-    title: "Weekly 1:1 with Manager",
-    type: "1:1",
-    date: "2024-02-10",
-    icon: MessagesSquare,
-    tags: ["Auto-updated", "Shared"]
-  },
-  {
-    title: "Software Engineer Resume",
-    type: "Resume",
-    date: "2024-02-01",
-    icon: FileText
-  }
-]
 </script>
